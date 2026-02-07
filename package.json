@@ -1,0 +1,27 @@
+{
+  "name": "wooden-dutch",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A satirical logistics news blog powered by Claude via AWS Bedrock and Ghost CMS",
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "generate": "bun run src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "ghost:up": "docker compose up -d",
+    "ghost:down": "docker compose down",
+    "ghost:logs": "docker compose logs -f"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.750.0",
+    "@aws-sdk/credential-providers": "^3.750.0",
+    "@tryghost/admin-api": "^1.14.4",
+    "commander": "^13.1.0",
+    "croner": "^9.0.0",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.4",
+    "typescript": "^5.7.3"
+  }
+}

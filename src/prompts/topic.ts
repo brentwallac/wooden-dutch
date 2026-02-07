@@ -1,0 +1,34 @@
+import type { ArticleTopic } from "../types.js";
+
+export function buildTopicPrompt(usedTopics: string[]): string {
+  const avoidList =
+    usedTopics.length > 0
+      ? `\n\nAvoid these previously used headlines:\n${usedTopics.map((t) => `- ${t}`).join("\n")}`
+      : "";
+
+  return `Generate a single satirical news topic for The Wooden Dutch, a logistics industry satire publication.
+
+The topic should be about one of these areas (pick one):
+- Ocean freight and container shipping
+- Air cargo
+- Customs brokerage and compliance
+- Freight forwarding operations
+- Supply chain technology and "digital transformation"
+- Port operations and terminal handling
+- Trucking and last-mile delivery
+- Warehousing and 3PL
+- Trade finance and freight insurance
+- Industry conferences and consulting
+
+Respond with ONLY valid JSON matching this exact structure (no markdown, no code fences):
+${JSON.stringify(
+  {
+    headline: "The main headline — punchy, newspaper-style",
+    subheadline: "A secondary line that adds context or an extra joke",
+    angle: "2-3 sentences describing the satirical angle and key points to hit",
+    tags: ["tag1", "tag2", "tag3"],
+  } satisfies ArticleTopic,
+  null,
+  2,
+)}${avoidList}`;
+}
