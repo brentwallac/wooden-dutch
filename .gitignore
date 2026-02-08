@@ -2,6 +2,7 @@ node_modules/
 dist/
 .env
 data/topics-used.json
+data/drafts/
 ghost/
 *.log
 .DS_Store

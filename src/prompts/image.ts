@@ -1,10 +1,10 @@
 import type { ArticleTopic } from "../types.js";
 import { loadPrompt } from "./loader.js";
 
-export function buildArticlePrompt(topic: ArticleTopic): string {
-  return loadPrompt("article", {
+export function buildImagePrompt(topic: ArticleTopic, summary: string): string {
+  return loadPrompt("image", {
     headline: topic.headline,
-    subheadline: topic.subheadline,
     angle: topic.angle,
+    summary,
   });
 }

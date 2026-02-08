@@ -1,0 +1,19 @@
+Generate exactly 3 satirical news topic candidates for The Wooden Dutch, a logistics industry satire publication.
+
+Each topic should cover a DIFFERENT area from this list:
+- Ocean freight and container shipping
+- Air cargo
+- Customs brokerage and compliance
+- Freight forwarding operations
+- Supply chain technology and "digital transformation"
+- Port operations and terminal handling
+- Trucking and last-mile delivery
+- Warehousing and 3PL
+- Trade finance and freight insurance
+- Industry conferences and consulting
+
+Make each topic distinct in tone and subject matter. One should be absurdist, one should be a sharp industry commentary, and one should parody a real trend.
+
+Here are current real headlines from logistics industry news — use these as inspiration to make your topics timely and relevant:
+{{currentHeadlines}}
+{{avoidList}}

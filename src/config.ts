@@ -11,7 +11,7 @@ const configSchema = z.object({
   bedrock: z.object({
     modelId: z
       .string()
-      .default("anthropic.claude-sonnet-4-20250514"),
+      .default("au.anthropic.claude-sonnet-4-5-20250929-v1:0"),
     maxTokens: z.coerce.number().int().positive().default(4096),
   }),
   ghost: z.object({
@@ -21,6 +21,10 @@ const configSchema = z.object({
       .enum(["true", "false"])
       .default("false")
       .transform((v) => v === "true"),
+  }),
+  gemini: z.object({
+    apiKey: z.string().optional(),
+    modelId: z.string().default("gemini-3-pro-image-preview"),
   }),
   scheduler: z.object({
     cronSchedule: z.string().default("0 8 * * 1,3,5"),
@@ -46,6 +50,10 @@ export function loadConfig(): Config {
       url: process.env.GHOST_URL,
       adminApiKey: process.env.GHOST_ADMIN_API_KEY,
       autoPublish: process.env.AUTO_PUBLISH,
+    },
+    gemini: {
+      apiKey: process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY,
+      modelId: process.env.GEMINI_MODEL_ID,
     },
     scheduler: {
       cronSchedule: process.env.CRON_SCHEDULE,

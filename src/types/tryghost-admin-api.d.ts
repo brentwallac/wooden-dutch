@@ -12,6 +12,8 @@ declare module "@tryghost/admin-api" {
     meta_description?: string;
     tags?: Array<{ name: string }>;
     status?: "draft" | "published" | "scheduled";
+    feature_image?: string;
+    feature_image_alt?: string;
   }
 
   interface Post {
@@ -32,6 +34,9 @@ declare module "@tryghost/admin-api" {
     constructor(options: GhostAdminAPIOptions);
     posts: {
       add(data: PostData, options?: { source: string }): Promise<Post>;
+    };
+    images: {
+      upload(data: { file: string }): Promise<{ url: string }>;
     };
     site: {
       read(): Promise<Site>;

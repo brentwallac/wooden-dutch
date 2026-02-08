@@ -1,0 +1,15 @@
+Create a realistic, photojournalistic-style image for a satirical logistics news article.
+
+Headline: "{{headline}}"
+Angle: {{angle}}
+Article summary: {{summary}}
+
+Requirements:
+- Photorealistic style, like a Reuters or AP wire photo accompanying a news article
+- Landscape orientation (16:9 aspect ratio)
+- No text, words, letters, or typography anywhere in the image
+- Natural lighting, candid or documentary photography feel
+- Subject matter should visually reference the headline's topic
+- Think business/trade press photography — real people, real places, real equipment
+- Shipping containers, ports, warehouses, trucks, cargo planes, office settings as appropriate
+- Influenced and style can be absurdist ala The Onion or Beetoota Advocate

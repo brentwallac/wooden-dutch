@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.ghost.org)",
+      "WebSearch",
+      "Bash(git -C /Users/brentwallace/Documents/GitHub show 768fe07:wooden-dutch/package.json)",
+      "Bash(git -C /Users/brentwallace/Documents/GitHub log --oneline -3)",
+      "Bash(bun run typecheck:*)",
+      "WebFetch(domain:ghost.org)",
+      "WebFetch(domain:grantwinney.com)",
+      "Bash(bun run generate:*)",
+      "Bash(bun add:*)",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__docs-langchain__SearchDocsByLangChain",
+      "mcp__plugin_context7_context7__query-docs",
+      "WebFetch(domain:www.thedcn.com.au)",
+      "WebFetch(domain:www.ftalliance.com.au)",
+      "WebFetch(domain:theloadstar.com)"
+    ]
+  }
+}

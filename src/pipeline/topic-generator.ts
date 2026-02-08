@@ -1,12 +1,14 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { Config } from "../config.js";
 import type { ArticleTopic } from "../types.js";
 import { invokeClaude } from "../services/bedrock.js";
 import { SYSTEM_PROMPT } from "../prompts/system.js";
 import { buildTopicPrompt } from "../prompts/topic.js";
 
-const DATA_DIR = join(import.meta.dir, "../../data");
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const DATA_DIR = join(__dirname, "../../data");
 const TOPICS_FILE = join(DATA_DIR, "topics-used.json");
 const MAX_HISTORY = 50;
 
