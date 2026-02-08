@@ -2,16 +2,9 @@ import "dotenv/config";
 import { z } from "zod";
 
 const configSchema = z.object({
-  aws: z.object({
-    region: z.string().default("us-east-1"),
-    accessKeyId: z.string().optional(),
-    secretAccessKey: z.string().optional(),
-    roleArn: z.string().optional(),
-  }),
-  bedrock: z.object({
-    modelId: z
-      .string()
-      .default("au.anthropic.claude-sonnet-4-5-20250929-v1:0"),
+  anthropic: z.object({
+    apiKey: z.string().min(1, "ANTHROPIC_API_KEY is required"),
+    modelId: z.string().default("claude-sonnet-4-5-20250929"),
     maxTokens: z.coerce.number().int().positive().default(4096),
   }),
   ghost: z.object({
@@ -36,14 +29,9 @@ export type Config = z.infer<typeof configSchema>;
 
 export function loadConfig(): Config {
   return configSchema.parse({
-    aws: {
-      region: process.env.AWS_REGION,
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      roleArn: process.env.AWS_ROLE_ARN,
-    },
-    bedrock: {
-      modelId: process.env.BEDROCK_MODEL_ID,
+    anthropic: {
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      modelId: process.env.ANTHROPIC_MODEL_ID,
       maxTokens: process.env.MAX_TOKENS,
     },
     ghost: {

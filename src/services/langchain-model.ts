@@ -1,38 +1,15 @@
-import { ChatBedrockConverse } from "@langchain/aws";
-import { fromTemporaryCredentials } from "@aws-sdk/credential-providers";
+import { ChatAnthropic } from "@langchain/anthropic";
 import type { Config } from "../config.js";
 
-let model: ChatBedrockConverse | null = null;
+let model: ChatAnthropic | null = null;
 
-export function getModel(config: Config): ChatBedrockConverse {
+export function getModel(config: Config): ChatAnthropic {
   if (model) return model;
 
-  const credentials = config.aws.roleArn
-    ? fromTemporaryCredentials({
-        params: {
-          RoleArn: config.aws.roleArn,
-          RoleSessionName: "wooden-dutch",
-        },
-        masterCredentials:
-          config.aws.accessKeyId && config.aws.secretAccessKey
-            ? {
-                accessKeyId: config.aws.accessKeyId,
-                secretAccessKey: config.aws.secretAccessKey,
-              }
-            : undefined,
-      })
-    : config.aws.accessKeyId && config.aws.secretAccessKey
-      ? {
-          accessKeyId: config.aws.accessKeyId,
-          secretAccessKey: config.aws.secretAccessKey,
-        }
-      : undefined;
-
-  model = new ChatBedrockConverse({
-    model: config.bedrock.modelId,
-    region: config.aws.region,
-    credentials,
-    maxTokens: config.bedrock.maxTokens,
+  model = new ChatAnthropic({
+    model: config.anthropic.modelId,
+    apiKey: config.anthropic.apiKey,
+    maxTokens: config.anthropic.maxTokens,
     temperature: 0.9,
   });
 

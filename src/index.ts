@@ -7,7 +7,7 @@ async function main() {
   console.log("The Wooden Dutch — Satirical Logistics News Generator\n");
 
   const config = loadConfig();
-  console.log(`Model: ${config.bedrock.modelId}`);
+  console.log(`Model: ${config.anthropic.modelId}`);
   console.log(`Ghost: ${config.ghost.url}`);
   console.log(`Auto-publish: ${config.ghost.autoPublish}`);
 
