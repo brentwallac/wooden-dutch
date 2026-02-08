@@ -1,0 +1,7 @@
+thedutchwood.com {
+	reverse_proxy ghost:2368
+}
+
+www.thedutchwood.com {
+	redir https://thedutchwood.com{uri} permanent
+}
