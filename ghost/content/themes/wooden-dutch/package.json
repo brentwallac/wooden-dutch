@@ -1,0 +1,58 @@
+{
+  "name": "wooden-dutch",
+  "description": "A broadsheet newspaper theme for The Wooden Dutch — satirical logistics news",
+  "version": "1.0.0",
+  "engines": {
+    "ghost": ">=5.0.0"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "The Wooden Dutch"
+  },
+  "config": {
+    "posts_per_page": 12,
+    "image_sizes": {
+      "xxs": { "width": 30 },
+      "xs": { "width": 100 },
+      "s": { "width": 300 },
+      "m": { "width": 600 },
+      "l": { "width": 1000 },
+      "xl": { "width": 2000 }
+    },
+    "custom": {
+      "color_scheme": {
+        "type": "select",
+        "options": ["Light", "Dark", "Auto"],
+        "default": "Light",
+        "description": "Default color scheme for the site"
+      },
+      "typography_headline": {
+        "type": "select",
+        "options": ["Playfair Display", "Lora", "Merriweather"],
+        "default": "Playfair Display",
+        "description": "Headline font family"
+      },
+      "show_tag_nav": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show the horizontal tag navigation bar"
+      },
+      "hero_style": {
+        "type": "select",
+        "options": ["Full width with image", "Text only", "Split"],
+        "default": "Full width with image",
+        "description": "Homepage hero article display style"
+      },
+      "show_author_bio_on_post": {
+        "type": "boolean",
+        "default": true,
+        "description": "Show author bio card at the end of articles"
+      },
+      "edition_label": {
+        "type": "text",
+        "default": "Global Edition",
+        "description": "Edition label shown in the masthead"
+      }
+    }
+  }
+}

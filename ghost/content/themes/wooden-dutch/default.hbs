@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}" data-theme="{{@custom.color_scheme}}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{meta_title}}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    {{#match @custom.typography_headline "Lora"}}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    {{else match @custom.typography_headline "Merriweather"}}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    {{else}}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    {{/match}}
+
+    <link rel="stylesheet" href="{{asset "css/screen.css"}}">
+
+    {{ghost_head}}
+
+    <script>
+        (function() {
+            var saved = localStorage.getItem('wd-theme');
+            var setting = '{{@custom.color_scheme}}';
+            var theme = saved || setting || 'Light';
+            if (theme === 'Auto') {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'Dark' : 'Light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body class="{{body_class}}">
+    <div class="site-wrapper">
+        {{> masthead}}
+
+        {{#if @custom.show_tag_nav}}
+        {{> tag-nav}}
+        {{/if}}
+
+        <main class="site-content" role="main">
+            {{{body}}}
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <div class="footer-masthead">
+                    <span class="footer-title">{{@site.title}}</span>
+                </div>
+                <div class="footer-meta">
+                    <p>&copy; {{date format="YYYY"}} {{@site.title}}. All rights reserved.</p>
+                    <p class="footer-disclaimer">This is a satirical publication. All articles are fictional.</p>
+                </div>
+                <nav class="footer-nav">
+                    {{navigation}}
+                </nav>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{asset "js/dark-mode.js"}}"></script>
+    {{ghost_foot}}
+</body>
+</html>

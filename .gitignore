@@ -3,6 +3,9 @@ dist/
 .env
 data/topics-used.json
 data/drafts/
-ghost/
+ghost/content/*
+!ghost/content/themes/
+ghost/content/themes/*
+!ghost/content/themes/wooden-dutch/
 *.log
 .DS_Store

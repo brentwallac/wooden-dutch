@@ -1,0 +1,41 @@
+{{!< default}}
+
+<div class="author-page">
+    <header class="author-header">
+        <div class="author-header-inner">
+            {{#if profile_image}}
+            <img class="author-header-avatar" src="{{img_url profile_image size="s"}}" alt="{{name}}">
+            {{/if}}
+            <div class="author-header-content">
+                <h1 class="author-header-name">{{name}}</h1>
+                {{#if location}}
+                <p class="author-header-title">{{location}}</p>
+                {{/if}}
+                {{#if bio}}
+                <p class="author-header-bio">{{bio}}</p>
+                {{/if}}
+                <div class="author-header-meta">
+                    <span class="author-header-count">{{plural ../pagination.total empty="No articles" singular="% article" plural="% articles"}}</span>
+                    {{#if website}}
+                    <a href="{{website}}" class="author-header-link" target="_blank" rel="noopener">Website</a>
+                    {{/if}}
+                    {{#if twitter}}
+                    <a href="{{twitter_url}}" class="author-header-link" target="_blank" rel="noopener">Twitter</a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <hr class="section-divider">
+
+    <section class="author-posts">
+        <div class="post-grid">
+            {{#foreach posts}}
+                {{> post-card}}
+            {{/foreach}}
+        </div>
+    </section>
+
+    {{> pagination}}
+</div>

@@ -1,0 +1,25 @@
+{{!< default}}
+
+<div class="tag-page">
+    <header class="tag-header">
+        <div class="tag-header-inner">
+            <h1 class="tag-header-name">{{name}}</h1>
+            {{#if description}}
+            <p class="tag-header-description">{{description}}</p>
+            {{/if}}
+            <span class="tag-header-count">{{plural ../pagination.total empty="No articles" singular="% article" plural="% articles"}}</span>
+        </div>
+    </header>
+
+    <hr class="section-divider">
+
+    <section class="tag-posts">
+        <div class="post-grid">
+            {{#foreach posts}}
+                {{> post-card}}
+            {{/foreach}}
+        </div>
+    </section>
+
+    {{> pagination}}
+</div>

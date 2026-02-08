@@ -1,0 +1,28 @@
+<header class="masthead">
+    <div class="masthead-inner">
+        <div class="masthead-top">
+            <div class="masthead-date">
+                <span>{{date format="dddd, MMMM D, YYYY"}}</span>
+            </div>
+            <div class="masthead-edition">
+                <span>{{@custom.edition_label}}</span>
+            </div>
+            <div class="masthead-actions">
+                {{> dark-toggle}}
+            </div>
+        </div>
+        <div class="masthead-nameplate">
+            <a href="{{@site.url}}" class="masthead-logo">
+                {{#if @site.logo}}
+                <img src="{{@site.logo}}" alt="{{@site.title}}">
+                {{else}}
+                <h1 class="masthead-title">{{@site.title}}</h1>
+                {{/if}}
+            </a>
+            {{#if @site.description}}
+            <p class="masthead-tagline">{{@site.description}}</p>
+            {{/if}}
+        </div>
+        <div class="masthead-rule"></div>
+    </div>
+</header>

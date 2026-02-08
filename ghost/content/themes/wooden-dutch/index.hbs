@@ -1,0 +1,42 @@
+{{!< default}}
+
+<div class="home-container">
+    {{!-- Hero: featured post or most recent --}}
+    {{#get "posts" filter="featured:true" limit="1" include="authors,tags"}}
+        {{#foreach posts}}
+            {{> hero-article}}
+        {{/foreach}}
+    {{else}}
+        {{#foreach posts}}
+            {{> hero-article}}
+        {{/foreach}}
+    {{/get}}
+
+    <hr class="section-divider">
+
+    {{!-- Secondary features --}}
+    {{#get "posts" filter="featured:true" limit="3" offset="1" include="authors,tags"}}
+    {{#if posts}}
+    <section class="secondary-features">
+        <div class="secondary-grid">
+            {{#foreach posts}}
+                {{> post-card-large}}
+            {{/foreach}}
+        </div>
+    </section>
+    <hr class="section-divider">
+    {{/if}}
+    {{/get}}
+
+    {{!-- Latest Headlines --}}
+    <section class="latest-headlines">
+        <h2 class="section-heading">Latest Headlines</h2>
+        <div class="post-grid">
+            {{#foreach posts}}
+                {{> post-card}}
+            {{/foreach}}
+        </div>
+    </section>
+
+    {{> pagination}}
+</div>

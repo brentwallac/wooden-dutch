@@ -1,0 +1,13 @@
+<nav class="tag-nav" role="navigation" aria-label="Section navigation">
+    <div class="tag-nav-inner">
+        {{#get "tags" limit="10" order="count.posts desc"}}
+        <ul class="tag-nav-list">
+            {{#foreach tags}}
+            <li class="tag-nav-item">
+                <a href="{{url}}">{{name}}</a>
+            </li>
+            {{/foreach}}
+        </ul>
+        {{/get}}
+    </div>
+</nav>

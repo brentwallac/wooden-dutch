@@ -1,0 +1,14 @@
+<div class="author-byline">
+    {{#foreach authors}}
+    <a href="{{url}}" class="author-byline-link">
+        {{#if profile_image}}
+        <img class="author-byline-avatar" src="{{img_url profile_image size="xs"}}" alt="{{name}}">
+        {{/if}}
+        <span class="author-byline-name">{{name}}</span>
+    </a>
+    {{#if location}}
+    <span class="author-byline-title">{{location}}</span>
+    {{/if}}
+    {{/foreach}}
+    <time class="author-byline-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time>
+</div>
