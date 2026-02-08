@@ -1,3 +1,6 @@
+import { writeFile, unlink, mkdir } from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import GhostAdminAPI from "@tryghost/admin-api";
 import type { Config } from "../config.js";
 import type { GeneratedArticle } from "../types.js";
@@ -28,6 +31,27 @@ export async function testConnection(config: Config): Promise<void> {
   }
 }
 
+export async function uploadImage(
+  config: Config,
+  imageBuffer: Buffer,
+  filename: string,
+): Promise<{ url: string }> {
+  const ghost = getApi(config);
+
+  const tempDir = join(tmpdir(), "wooden-dutch");
+  await mkdir(tempDir, { recursive: true });
+  const tempPath = join(tempDir, filename);
+
+  try {
+    await writeFile(tempPath, imageBuffer);
+    const result = await ghost.images.upload({ file: tempPath });
+    console.log(`Image uploaded to Ghost: ${result.url}`);
+    return { url: result.url };
+  } finally {
+    await unlink(tempPath).catch(() => {});
+  }
+}
+
 export async function publishArticle(
   config: Config,
   article: GeneratedArticle,
@@ -42,6 +66,13 @@ export async function publishArticle(
       meta_description: article.metaDescription,
       tags: article.tags.map((name) => ({ name })),
       status: config.ghost.autoPublish ? "published" : "draft",
+      ...(article.authorSlug && {
+        authors: [{ slug: article.authorSlug }],
+      }),
+      ...(article.featureImageUrl && {
+        feature_image: article.featureImageUrl,
+        feature_image_alt: article.title,
+      }),
     },
     { source: "html" },
   );

@@ -11,6 +11,9 @@ export interface GeneratedArticle {
   metaTitle: string;
   metaDescription: string;
   tags: string[];
+  authorName: string;
+  authorSlug: string;
+  featureImageUrl?: string;
 }
 
 export interface PipelineResult {
@@ -18,4 +21,23 @@ export interface PipelineResult {
   article: GeneratedArticle;
   ghostUrl?: string;
   publishedAt?: string;
+}
+
+export interface EditorialReview {
+  score: number;
+  toneCorrect: boolean;
+  wordCountOk: boolean;
+  satireQuality: "weak" | "good" | "excellent";
+  htmlValid: boolean;
+  feedback: string;
+}
+
+export interface DraftArticle {
+  id: string;
+  generatedAt: string;
+  topic: ArticleTopic;
+  article: GeneratedArticle;
+  status: "draft" | "published";
+  publishedAt: string | null;
+  ghostUrl: string | null;
 }

@@ -1,0 +1,24 @@
+Revise this satirical logistics news article based on the editorial feedback below.
+
+**Headline:** {{headline}}
+**Subheadline:** {{subheadline}}
+**Angle:** {{angle}}
+
+**Current article HTML:**
+{{articleHtml}}
+
+**Editorial feedback:**
+Score: {{score}}/10
+Tone correct: {{toneCorrect}}
+Word count OK: {{wordCountOk}}
+Satire quality: {{satireQuality}}
+HTML valid: {{htmlValid}}
+Specific feedback: {{feedback}}
+
+Requirements:
+- Address ALL points in the editorial feedback
+- Keep the article between 400-700 words
+- Maintain {{authorName}}'s distinctive voice throughout
+- Use only these HTML tags: <p>, <h2>, <h3>, <blockquote>, <em>, <strong>
+- Do NOT include the headline in the article body
+- Output raw HTML only, starting directly with the first <p> tag

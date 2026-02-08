@@ -1,8 +1,10 @@
 import type { ArticleTopic, GeneratedArticle } from "../types.js";
+import type { AuthorPersona } from "../data/authors.js";
 
 export function formatArticle(
   topic: ArticleTopic,
   rawHtml: string,
+  author: AuthorPersona,
 ): GeneratedArticle {
   // Strip code fences if the LLM wrapped its output
   let html = rawHtml
@@ -25,5 +27,7 @@ export function formatArticle(
     metaTitle: topic.headline,
     metaDescription,
     tags: topic.tags,
+    authorName: author.name,
+    authorSlug: author.slug,
   };
 }
