@@ -4,9 +4,9 @@
   "type": "module",
   "description": "A satirical logistics news blog powered by Claude via AWS Bedrock and Ghost CMS",
   "scripts": {
-    "dev": "tsx src/index.ts",
-    "generate": "tsx src/cli.ts",
-    "wd": "tsx src/cli.ts",
+    "dev": "bun src/index.ts",
+    "generate": "bun src/cli.ts",
+    "wd": "bun src/cli.ts",
     "typecheck": "tsc --noEmit",
     "ghost:up": "docker compose up -d",
     "ghost:down": "docker compose down",

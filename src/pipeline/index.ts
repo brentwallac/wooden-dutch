@@ -20,7 +20,7 @@ async function loadUsedTopics(): Promise<string[]> {
 
 export async function runPipeline(
   config: Config,
-  options?: { dryRun?: boolean; saveOnly?: boolean },
+  options?: { dryRun?: boolean; saveOnly?: boolean; topicHint?: string },
 ): Promise<PipelineResult> {
   console.log("\n--- Pipeline Start ---\n");
 

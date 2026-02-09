@@ -1,22 +1,23 @@
-import { writeFile, unlink, mkdir } from "node:fs/promises";
-import { join } from "node:path";
-import { tmpdir } from "node:os";
+import { createHmac } from "node:crypto";
 import GhostAdminAPI from "@tryghost/admin-api";
 import type { Config } from "../config.js";
 import type { GeneratedArticle } from "../types.js";
 
-let api: InstanceType<typeof GhostAdminAPI> | null = null;
-
 function getApi(config: Config): InstanceType<typeof GhostAdminAPI> {
-  if (api) return api;
-
-  api = new GhostAdminAPI({
+  return new GhostAdminAPI({
     url: config.ghost.url,
     key: config.ghost.adminApiKey,
     version: "v5.0",
   });
+}
 
-  return api;
+function makeGhostToken(adminApiKey: string): string {
+  const [id, secret] = adminApiKey.split(":");
+  const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT", kid: id })).toString("base64url");
+  const now = Math.floor(Date.now() / 1000);
+  const payload = Buffer.from(JSON.stringify({ iat: now, exp: now + 300, aud: "/admin/" })).toString("base64url");
+  const sig = createHmac("sha256", Buffer.from(secret, "hex")).update(`${header}.${payload}`).digest("base64url");
+  return `${header}.${payload}.${sig}`;
 }
 
 export async function testConnection(config: Config): Promise<void> {
@@ -36,20 +37,28 @@ export async function uploadImage(
   imageBuffer: Buffer,
   filename: string,
 ): Promise<{ url: string }> {
-  const ghost = getApi(config);
+  const token = makeGhostToken(config.ghost.adminApiKey);
+  const formData = new FormData();
+  const blob = new Blob([imageBuffer], { type: "image/jpeg" });
+  formData.append("file", blob, `${Date.now()}-${filename}`);
 
-  const tempDir = join(tmpdir(), "wooden-dutch");
-  await mkdir(tempDir, { recursive: true });
-  const tempPath = join(tempDir, filename);
+  const res = await fetch(`${config.ghost.url}/ghost/api/admin/images/upload/`, {
+    method: "POST",
+    headers: { Authorization: `Ghost ${token}` },
+    body: formData,
+  });
 
-  try {
-    await writeFile(tempPath, imageBuffer);
-    const result = await ghost.images.upload({ file: tempPath });
-    console.log(`Image uploaded to Ghost: ${result.url}`);
-    return { url: result.url };
-  } finally {
-    await unlink(tempPath).catch(() => {});
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Ghost image upload failed (${res.status}): ${body}`);
   }
+
+  const data = await res.json();
+  const url = data.images?.[0]?.url;
+  if (!url) throw new Error("Ghost image upload returned no URL");
+
+  console.log(`Image uploaded to Ghost: ${url}`);
+  return { url };
 }
 
 export async function publishArticle(

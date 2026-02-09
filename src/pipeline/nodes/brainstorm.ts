@@ -25,12 +25,16 @@ export async function brainstormTopics(
       ? `\n\nAvoid these previously used headlines:\n${state.usedTopics.map((t) => `- ${t}`).join("\n")}`
       : "";
 
+  const topicHint = state.options.topicHint
+    ? `\n\nIMPORTANT: The editor has requested ALL 3 candidates focus on this specific theme: "${state.options.topicHint}". Generate 3 different satirical angles on this theme.`
+    : "";
+
   const currentHeadlines =
     state.industryHeadlines.length > 0
       ? state.industryHeadlines.map((h) => `- ${h}`).join("\n")
       : "(no current headlines available)";
 
-  const promptText = loadPrompt("brainstorm", { avoidList, currentHeadlines });
+  const promptText = loadPrompt("brainstorm", { avoidList, currentHeadlines }) + topicHint;
   const systemText = loadPrompt("system", {
     authorName: "the editorial team",
     authorVoice: "You are a seasoned logistics journalism team brainstorming satirical article topics.",

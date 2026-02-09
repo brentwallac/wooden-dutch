@@ -12,12 +12,12 @@ import { uploadImage } from "./services/ghost.js";
 
 // --- Reusable action functions ---
 
-async function actionGenerate(opts: { dryRun?: boolean }) {
+async function actionGenerate(opts: { dryRun?: boolean; topicHint?: string }) {
   const config = loadConfig();
   if (!opts.dryRun) {
     await testConnection(config);
   }
-  await runPipeline(config, { dryRun: opts.dryRun });
+  await runPipeline(config, { dryRun: opts.dryRun, topicHint: opts.topicHint });
 }
 
 async function actionGenerateBatch(count: number) {
@@ -238,14 +238,15 @@ program
   .command("generate")
   .description("Generate and publish a single article")
   .option("--dry-run", "Generate article but don't publish to Ghost")
+  .option("--topic <hint>", "Guide topic generation toward a specific theme")
   .option("--count <n>", "Generate N articles and save as local drafts", parseInt)
-  .action(async (opts: { dryRun?: boolean; count?: number }) => {
+  .action(async (opts: { dryRun?: boolean; topic?: string; count?: number }) => {
     try {
       if (opts.count) {
         await actionGenerateBatch(opts.count);
         return;
       }
-      await actionGenerate({ dryRun: opts.dryRun });
+      await actionGenerate({ dryRun: opts.dryRun, topicHint: opts.topic });
     } catch (error) {
       console.error(
         "Error:",

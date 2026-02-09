@@ -5,7 +5,7 @@ import type { AuthorPersona } from "../data/authors.js";
 
 const PipelineState = Annotation.Root({
   config: Annotation<Config>,
-  options: Annotation<{ dryRun?: boolean; saveOnly?: boolean }>,
+  options: Annotation<{ dryRun?: boolean; saveOnly?: boolean; topicHint?: string }>,
   usedTopics: Annotation<string[]>,
   topicCandidates: Annotation<ArticleTopic[]>,
   selectedTopic: Annotation<ArticleTopic>,
