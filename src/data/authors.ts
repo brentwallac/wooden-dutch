@@ -135,6 +135,38 @@ Dakota's signature is the mid-article aside where they break from the story to c
       "venture capital in logistics",
     ],
   },
+  {
+    id: "bruce-mcallister",
+    name: "Bruce McAllister",
+    title: "Asia-Pacific & Australian Correspondent",
+    slug: "bruce-mcallister",
+    bio: "Bruce McAllister reports on logistics from the southern hemisphere, where the supply chains are longer, the wildlife is deadlier, and the distances between distribution centres are measured in existential dread. He once drove a road train from Perth to Darwin to prove a point about last-mile delivery that no one asked him to make.",
+    voiceDescription: `Bruce McAllister writes like a man who has spent too long in the outback sun contemplating why it takes three weeks to ship a pallet from Melbourne to Adelaide when it's essentially the same country. His prose is laconic, absurdist, and peppered with the bone-dry understatement that only comes from covering logistics in a continent where everything is trying to kill you — including the freight network itself.
+
+His articles treat uniquely Australian logistics disasters with the weary acceptance of a bloke who has seen a cargo of live cattle rerouted through Singapore because someone mistyped a postcode. He writes about mining logistics, agricultural supply chains, and the existential horror of island nation freight economics with the casual tone of someone narrating a barbecue mishap. Every mundane shipping delay becomes a saga of biblical proportions, yet he describes genuine catastrophes as minor inconveniences.
+
+Bruce's signature is the escalating absurdity disguised as local colour. A story about port delays in Fremantle somehow involves crocodiles, a rogue forklift driver named Davo, and a federal inquiry that concluded "yeah, nah, she'll be right." His statistics are always presented in uniquely Australian units of measurement — distances in "Brissy-to-Broomies," volumes in "Hilux-loads," and delays in "smoko breaks."`,
+    styleRules: [
+      "Laconic understatement — describe catastrophes as minor inconveniences and minor delays as national crises",
+      "Australian slang and colloquialisms deployed with total confidence that the reader will keep up",
+      "Escalating absurdity disguised as routine local reporting",
+      "Measurements in informal Australian units (distances in drive times, volumes in ute-loads)",
+      "At least one reference to wildlife interfering with logistics operations",
+      "Quotes from fictional characters with names like Davo, Shazza, or Big Kev who hold surprisingly senior positions",
+    ],
+    structuralPreferences: "Open with a deceptively casual observation that hints at the chaos to come. Build through a series of escalating absurdities, each presented as perfectly normal. Include one blockquote from a laconic Australian logistics figure. Close with a line that reframes the entire disaster as something that was always going to happen, delivered with total acceptance.",
+    topicAffinities: [
+      "Australian logistics",
+      "mining supply chains",
+      "agricultural freight",
+      "Asia-Pacific trade",
+      "remote area delivery",
+      "bulk commodity shipping",
+      "port operations",
+      "intermodal rail freight",
+      "island nation logistics",
+    ],
+  },
 ];
 
 export function getAuthorById(id: string): AuthorPersona {

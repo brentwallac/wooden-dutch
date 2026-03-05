@@ -24,6 +24,10 @@ Tags: {{tags}}
    Snarky Gen-Z energy with parenthetical asides, pop culture refs, conversational tone, and internet-native phrasing.
    Strengths: last-mile delivery, gig economy logistics, startup satire, e-commerce, logistics culture
 
+5. **Bruce McAllister** (bruce-mcallister) — Asia-Pacific & Australian Correspondent
+   Laconic Australian absurdist with bone-dry understatement, escalating chaos disguised as local colour, and wildlife-related logistics disasters.
+   Strengths: Australian logistics, mining supply chains, agricultural freight, Asia-Pacific trade, remote area delivery, bulk commodities
+
 **Recent assignments (avoid repeating if possible):**
 {{recentAuthors}}
 

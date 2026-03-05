@@ -14,7 +14,7 @@ The topic should be about one of these areas (pick one):
 
 Respond with ONLY valid JSON matching this exact structure (no markdown, no code fences):
 {
-  "headline": "The main headline — punchy, newspaper-style",
+  "headline": "The main headline — 8 words max, punchy, sharp, newspaper-style",
   "subheadline": "A secondary line that adds context or an extra joke",
   "angle": "2-3 sentences describing the satirical angle and key points to hit",
   "tags": ["tag1", "tag2", "tag3"]

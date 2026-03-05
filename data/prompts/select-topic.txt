@@ -7,7 +7,7 @@ Previously used headlines to avoid similarity with:
 {{usedTopics}}
 
 Evaluate each candidate on:
-1. Headline punch — is it catchy and newspaper-worthy?
+1. Headline punch — is it short, sharp, and immediately funny? Penalise anything over 8 words.
 2. Satirical depth — does the angle have enough material for a 400-700 word article?
 3. Industry relevance — will freight professionals find it recognisable?
 4. Originality — is it sufficiently different from previously used topics?

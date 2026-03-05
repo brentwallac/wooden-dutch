@@ -14,6 +14,8 @@ Each topic should cover a DIFFERENT area from this list:
 
 Make each topic distinct in tone and subject matter. One should be absurdist, one should be a sharp industry commentary, and one should parody a real trend.
 
+Headlines MUST be concise — aim for 8 words or fewer. The best headlines are short, sharp, and punchy. Brevity is the soul of wit. Think tabloid energy, not academic paper. A great headline makes you laugh before you've finished reading it.
+
 Here are current real headlines from logistics industry news — use these as inspiration to make your topics timely and relevant:
 {{currentHeadlines}}
 {{avoidList}}

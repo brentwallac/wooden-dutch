@@ -5,7 +5,7 @@ import { loadPrompt } from "../../prompts/loader.js";
 import type { PipelineStateType } from "../state.js";
 
 const topicSchema = z.object({
-  headline: z.string().describe("The main headline — punchy, newspaper-style"),
+  headline: z.string().describe("The main headline — 8 words max, punchy, sharp"),
   subheadline: z.string().describe("A secondary line that adds context or an extra joke"),
   angle: z.string().describe("2-3 sentences describing the satirical angle and key points to hit"),
   tags: z.array(z.string()).describe("3 relevant tags"),
