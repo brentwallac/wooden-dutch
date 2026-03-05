@@ -54,6 +54,41 @@ async function fetchDcnHeadlines(): Promise<string[]> {
   return headlines;
 }
 
+async function fetchAfrHeadlines(): Promise<string[]> {
+  const res = await fetch("https://www.afr.com/companies/transport", {
+    signal: AbortSignal.timeout(FETCH_TIMEOUT),
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; WoodenDutch/1.0)" },
+  });
+  const html = await res.text();
+
+  const headlines: string[] = [];
+  const headingRegex = /<h[23][^>]*>\s*<a[^>]*>(.*?)<\/a>/gi;
+  let match: RegExpExecArray | null;
+  while ((match = headingRegex.exec(html)) !== null && headlines.length < MAX_PER_SOURCE) {
+    const text = match[1]!.replace(/<[^>]+>/g, "").trim();
+    if (text) headlines.push(`${text} (AFR)`);
+  }
+
+  return headlines;
+}
+
+async function fetchRedditFreightForwarding(): Promise<string[]> {
+  const res = await fetch("https://www.reddit.com/r/FreightForwarding/.json?limit=10", {
+    signal: AbortSignal.timeout(FETCH_TIMEOUT),
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; WoodenDutch/1.0)" },
+  });
+  const json = await res.json() as { data: { children: Array<{ data: { title: string } }> } };
+
+  const headlines: string[] = [];
+  for (const post of json.data.children) {
+    if (headlines.length >= MAX_PER_SOURCE) break;
+    const title = post.data.title?.trim();
+    if (title) headlines.push(`${title} (r/FreightForwarding)`);
+  }
+
+  return headlines;
+}
+
 async function fetchFtaHeadlines(): Promise<string[]> {
   const res = await fetch("https://www.ftalliance.com.au/news/", {
     signal: AbortSignal.timeout(FETCH_TIMEOUT),
@@ -80,6 +115,8 @@ export async function researchNews(
     { name: "Loadstar", fn: fetchLoadstarHeadlines },
     { name: "DCN", fn: fetchDcnHeadlines },
     { name: "FTA", fn: fetchFtaHeadlines },
+    { name: "AFR", fn: fetchAfrHeadlines },
+    { name: "r/FreightForwarding", fn: fetchRedditFreightForwarding },
   ];
 
   const results = await Promise.allSettled(fetchers.map((f) => f.fn()));
