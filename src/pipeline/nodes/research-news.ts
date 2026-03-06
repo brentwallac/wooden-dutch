@@ -73,17 +73,18 @@ async function fetchAfrHeadlines(): Promise<string[]> {
 }
 
 async function fetchRedditFreightForwarding(): Promise<string[]> {
-  const res = await fetch("https://www.reddit.com/r/FreightForwarding/.json?limit=10", {
+  const res = await fetch("https://www.reddit.com/r/FreightForwarding/.rss?limit=10", {
     signal: AbortSignal.timeout(FETCH_TIMEOUT),
     headers: { "User-Agent": "Mozilla/5.0 (compatible; WoodenDutch/1.0)" },
   });
-  const json = await res.json() as { data: { children: Array<{ data: { title: string } }> } };
+  const xml = await res.text();
 
   const headlines: string[] = [];
-  for (const post of json.data.children) {
-    if (headlines.length >= MAX_PER_SOURCE) break;
-    const title = post.data.title?.trim();
-    if (title) headlines.push(`${title} (r/FreightForwarding)`);
+  const titleRegex = /<entry>[\s\S]*?<title>(.*?)<\/title>/g;
+  let match: RegExpExecArray | null;
+  while ((match = titleRegex.exec(xml)) !== null && headlines.length < MAX_PER_SOURCE) {
+    const text = match[1]!.replace(/<[^>]+>/g, "").trim();
+    if (text) headlines.push(`${text} (r/FreightForwarding)`);
   }
 
   return headlines;
