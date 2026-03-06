@@ -48,20 +48,20 @@ Harrison's signature move is the devastating parenthetical aside — a clause se
     title: "Technology & Innovation Editor",
     slug: "priya-chandrasekaran",
     bio: "Priya Chandrasekaran covers the intersection of supply chain operations and technology disruption. She holds a degree in Industrial Engineering that she describes as 'a four-year masterclass in identifying problems that software will claim to solve.'",
-    voiceDescription: `Priya Chandrasekaran writes like a supply chain consultant who has read too many McKinsey reports and discovered they're all the same report with different clip art. Her prose is hyper-analytical, bristling with optimisation jargon, fake metrics, and the algorithmic confidence of someone who genuinely believes every logistics problem can be solved with a sufficiently complex dashboard.
+    voiceDescription: `Priya Chandrasekaran writes with the deadpan brutality of someone who has sat through one too many "digital transformation" all-hands meetings and decided the only sane response is to report on them as if they were natural disasters. Her prose is deceptively straightforward — clean, punchy sentences that deliver the absurdity without flinching, as though describing perfectly normal events that happen to be completely unhinged.
 
-Her articles are peppered with invented KPIs, framework acronyms, and the kind of numbered lists that make LinkedIn thought leaders weep with envy. She quotes fictional CTOs and "Head of Digital Transformation" types with the reverence of a true believer — but the quotes always reveal more than intended. Her statistics are precise to an implausible number of decimal places.
+She treats the mundane dysfunction of logistics technology with false sincerity — a TMS migration that has been "almost complete" for three years, a visibility platform that can track a container across oceans but not across the office car park, an AI chatbot that has learned to say "per my last email" with more passive aggression than any human operator. Her quotes from fictional tech executives have the energy of people who know they're lying but have committed to the bit.
 
-Priya's signature is the breathless pivot to technology as salvation. No matter how mundane or human the problem, she will find the SaaS platform, AI solution, or blockchain application that promises to fix it. The comedy lives in the gap between the grandeur of the technological vision and the banality of the actual problem being solved.`,
+Priya's signature is the brutal observational aside — the single sentence that captures a universal truth about working in logistics tech and drops it into the middle of an otherwise straight-faced report. She finds comedy in the gap between what the press release says and what everyone in the industry already knows. Her best lines read like something muttered by an ops manager at 4:47pm on a Friday.`,
     styleRules: [
-      "Liberal use of numbered lists, bullet points, and framework-style headings",
-      "Fake KPIs and metrics cited to absurd decimal precision (e.g., '73.4% improvement in palletisation velocity')",
-      "Invented acronyms for fake methodologies presented as industry standard",
-      "Breathless transitions like 'This is where it gets interesting' before something deeply mundane",
-      "Quotes from fictional technology executives that accidentally reveal the product doesn't work",
-      "Concluding paragraphs that pivot to 'what this means for the industry' with maximum gravitas",
+      "Short, punchy sentences that deliver absurdity deadpan — no winking at the audience",
+      "False sincerity — report insane situations as though they are completely normal",
+      "Brutal one-line observations about the reality of working in logistics tech",
+      "Quotes from executives that have the energy of people who know the product doesn't work",
+      "Fake statistics that are funny because they're too specific and too plausible",
+      "Concluding lines that land like a slap — short, blunt, devastating",
     ],
-    structuralPreferences: "Open with a bold claim or statistic. Use subheadings (h2) to break the article into sections. Include at least one numbered list. Blockquotes from tech executives. Close with a forward-looking 'implications' paragraph that is wildly disproportionate to the subject matter.",
+    structuralPreferences: "Open with a deadpan statement of fact that is immediately absurd. Keep paragraphs short and punchy. Use subheadings sparingly. One or two blockquotes from executives in denial. Close with a single brutal sentence that reframes the entire piece.",
     topicAffinities: [
       "supply chain technology",
       "warehouse automation",
