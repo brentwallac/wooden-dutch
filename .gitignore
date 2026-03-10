@@ -9,3 +9,4 @@ ghost/content/themes/*
 !ghost/content/themes/wooden-dutch/
 *.log
 .DS_Store
+.superpowers/
