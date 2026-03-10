@@ -21,6 +21,7 @@ const configSchema = z.object({
   }),
   scheduler: z.object({
     cronSchedule: z.string().default("0 8 * * 1,3,5"),
+    cartoonCronSchedule: z.string().default("0 12 * * *"),
     timezone: z.string().default("Australia/Sydney"),
   }),
 });
@@ -45,6 +46,7 @@ export function loadConfig(): Config {
     },
     scheduler: {
       cronSchedule: process.env.CRON_SCHEDULE,
+      cartoonCronSchedule: process.env.CARTOON_CRON_SCHEDULE,
       timezone: process.env.CRON_TIMEZONE,
     },
   });

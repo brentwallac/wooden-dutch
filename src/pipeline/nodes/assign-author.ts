@@ -1,24 +1,13 @@
-import { z } from "zod";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { getModel } from "../../services/langchain-model.js";
-import { loadPrompt } from "../../prompts/loader.js";
-import { authors, getAuthorById } from "../../data/authors.js";
+import { authors } from "../../data/authors.js";
 import type { PipelineStateType } from "../state.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = join(__dirname, "../../../data");
 const RECENT_AUTHORS_FILE = join(DATA_DIR, "authors-recent.json");
 const MAX_RECENT = 10;
-
-const authorIds = authors.map((a) => a.id) as [string, ...string[]];
-
-const assignmentSchema = z.object({
-  authorId: z.enum(authorIds).describe("The ID of the selected author"),
-  reasoning: z.string().describe("Brief explanation of why this author fits the topic"),
-});
 
 export async function loadRecentAuthorIds(): Promise<string[]> {
   try {
@@ -48,43 +37,32 @@ export async function saveRecentAuthorId(authorId: string): Promise<void> {
 export async function assignAuthor(
   state: PipelineStateType,
 ): Promise<Partial<PipelineStateType>> {
-  const topic = state.selectedTopic;
   console.log("Assigning author...");
 
-  const recentAuthors =
-    state.recentAuthorIds.length > 0
-      ? state.recentAuthorIds
-          .map((id) => {
-            const a = authors.find((au) => au.id === id);
-            return a ? `- ${a.name} (${a.id})` : `- ${id}`;
-          })
-          .join("\n")
-      : "(none yet)";
+  const recentIds = state.recentAuthorIds;
 
-  const promptText = loadPrompt("assign-author", {
-    headline: topic.headline,
-    subheadline: topic.subheadline,
-    angle: topic.angle,
-    tags: topic.tags.join(", "),
-    recentAuthors,
+  // Weight authors by how recently they were used — less recent = higher weight
+  const weights = authors.map((author) => {
+    const lastIndex = recentIds.lastIndexOf(author.id);
+    if (lastIndex === -1) return 10; // Never used recently — high weight
+    const recency = recentIds.length - lastIndex; // Higher = less recent
+    return recency + 1;
   });
 
-  const prompt = ChatPromptTemplate.fromMessages([
-    ["system", "You are the editor-in-chief of The Wooden Dutch, a satirical logistics news publication."],
-    ["human", "{input}"],
-  ]);
+  // Weighted random selection
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+  let roll = Math.random() * totalWeight;
+  let selectedIndex = 0;
+  for (let i = 0; i < weights.length; i++) {
+    roll -= weights[i]!;
+    if (roll <= 0) {
+      selectedIndex = i;
+      break;
+    }
+  }
 
-  const model = getModel(state.config);
-  const structured = model.withStructuredOutput(assignmentSchema, {
-    name: "AuthorAssignment",
-  });
-  const chain = prompt.pipe(structured);
-
-  const result = await chain.invoke({ input: promptText });
-  const author = getAuthorById(result.authorId);
-
+  const author = authors[selectedIndex]!;
   console.log(`Assigned to: ${author.name} (${author.title})`);
-  console.log(`Reason: ${result.reasoning}`);
 
   return { assignedAuthor: author };
 }

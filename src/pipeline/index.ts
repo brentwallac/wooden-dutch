@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import type { Config } from "../config.js";
 import type { PipelineResult } from "../types.js";
 import { graph } from "./graph.js";
+import { cartoonGraph } from "./cartoon-graph.js";
 import { loadRecentAuthorIds } from "./nodes/assign-author.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -18,18 +19,15 @@ async function loadUsedTopics(): Promise<string[]> {
   }
 }
 
-export async function runPipeline(
+function buildInitialState(
   config: Config,
-  options?: { dryRun?: boolean; saveOnly?: boolean; topicHint?: string },
-): Promise<PipelineResult> {
-  console.log("\n--- Pipeline Start ---\n");
-
-  const usedTopics = await loadUsedTopics();
-  const recentAuthorIds = await loadRecentAuthorIds();
-
-  const result = await graph.invoke({
+  options: { dryRun?: boolean; saveOnly?: boolean; topicHint?: string },
+  usedTopics: string[],
+  recentAuthorIds: string[],
+) {
+  return {
     config,
-    options: options ?? {},
+    options,
     usedTopics,
     recentAuthorIds,
     revisionCount: 0,
@@ -37,8 +35,8 @@ export async function runPipeline(
     selectedTopic: { headline: "", subheadline: "", angle: "", tags: [] },
     assignedAuthor: {
       id: "", name: "", title: "", slug: "", bio: "",
-      voiceDescription: "", styleRules: [], structuralPreferences: "",
-      topicAffinities: [],
+      voiceDescription: "", styleRules: [] as string[], structuralPreferences: "",
+      topicAffinities: [] as string[],
     },
     articleHtml: "",
     review: {
@@ -55,9 +53,31 @@ export async function runPipeline(
     },
     imageUrl: null,
     industryHeadlines: [],
-  });
+  };
+}
 
-  console.log("\n--- Pipeline Complete ---\n");
+export async function runPipeline(
+  config: Config,
+  options?: { dryRun?: boolean; saveOnly?: boolean; topicHint?: string; cartoon?: boolean },
+): Promise<PipelineResult> {
+  const isCartoon = options?.cartoon ?? false;
+  console.log(`\n--- ${isCartoon ? "Cartoon" : "Article"} Pipeline Start ---\n`);
+
+  const usedTopics = await loadUsedTopics();
+  const recentAuthorIds = await loadRecentAuthorIds();
+
+  const initialState = buildInitialState(config, options ?? {}, usedTopics, recentAuthorIds);
+
+  // For cartoons, force Gil Framingham as the author
+  if (isCartoon) {
+    const { getAuthorById } = await import("../data/authors.js");
+    initialState.assignedAuthor = getAuthorById("gil-framingham");
+  }
+
+  const selectedGraph = isCartoon ? cartoonGraph : graph;
+  const result = await selectedGraph.invoke(initialState);
+
+  console.log(`\n--- ${isCartoon ? "Cartoon" : "Article"} Pipeline Complete ---\n`);
 
   return {
     topic: result.selectedTopic,

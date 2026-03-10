@@ -13,11 +13,15 @@ async function main() {
 
   await testConnection(config);
 
-  startScheduler(config, async () => {
+  startScheduler(config, config.scheduler.cronSchedule, "Article", async () => {
     await runPipeline(config);
   });
 
-  console.log("\nScheduler running. Press Ctrl+C to stop.\n");
+  startScheduler(config, config.scheduler.cartoonCronSchedule, "Cartoon", async () => {
+    await runPipeline(config, { cartoon: true });
+  });
+
+  console.log("\nSchedulers running. Press Ctrl+C to stop.\n");
 }
 
 main().catch((error) => {

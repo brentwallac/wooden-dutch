@@ -107,6 +107,49 @@ async function fetchFtaHeadlines(): Promise<string[]> {
   return headlines;
 }
 
+async function fetchReutersBusinessHeadlines(): Promise<string[]> {
+  const res = await fetch("https://news.google.com/rss/search?q=shipping+OR+freight+OR+trade+war+OR+tariffs+OR+supply+chain+OR+Red+Sea+OR+Suez+OR+Panama+Canal&hl=en&gl=US&ceid=US:en", {
+    signal: AbortSignal.timeout(FETCH_TIMEOUT),
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; WoodenDutch/1.0)" },
+  });
+  const xml = await res.text();
+
+  const headlines: string[] = [];
+  const titleRegex = /<item>[\s\S]*?<title>(.*?)<\/title>/g;
+  let match: RegExpExecArray | null;
+  while ((match = titleRegex.exec(xml)) !== null && headlines.length < MAX_PER_SOURCE) {
+    const text = match[1]!.replace(/<!\[CDATA\[|\]\]>/g, "").replace(/<[^>]+>/g, "").trim();
+    if (text) headlines.push(`${text} (Google News)`);
+  }
+
+  return headlines;
+}
+
+async function fetchBbcWorldHeadlines(): Promise<string[]> {
+  const res = await fetch("http://feeds.bbci.co.uk/news/world/rss.xml", {
+    signal: AbortSignal.timeout(FETCH_TIMEOUT),
+  });
+  const xml = await res.text();
+
+  const headlines: string[] = [];
+  const titleRegex = /<item>[\s\S]*?<title><!\[CDATA\[(.*?)\]\]><\/title>/g;
+  let match: RegExpExecArray | null;
+  while ((match = titleRegex.exec(xml)) !== null && headlines.length < MAX_PER_SOURCE) {
+    headlines.push(`${match[1]!.trim()} (BBC World)`);
+  }
+
+  // Fallback: plain <title>
+  if (headlines.length === 0) {
+    const plainRegex = /<item>[\s\S]*?<title>(.*?)<\/title>/g;
+    while ((match = plainRegex.exec(xml)) !== null && headlines.length < MAX_PER_SOURCE) {
+      const text = match[1]!.replace(/<!\[CDATA\[|\]\]>/g, "").trim();
+      if (text) headlines.push(`${text} (BBC World)`);
+    }
+  }
+
+  return headlines;
+}
+
 export async function researchNews(
   state: PipelineStateType,
 ): Promise<Partial<PipelineStateType>> {
@@ -118,6 +161,8 @@ export async function researchNews(
     { name: "FTA", fn: fetchFtaHeadlines },
     { name: "AFR", fn: fetchAfrHeadlines },
     { name: "r/FreightForwarding", fn: fetchRedditFreightForwarding },
+    { name: "Google News (trade/shipping)", fn: fetchReutersBusinessHeadlines },
+    { name: "BBC World", fn: fetchBbcWorldHeadlines },
   ];
 
   const results = await Promise.allSettled(fetchers.map((f) => f.fn()));

@@ -17,20 +17,20 @@ export const authors: AuthorPersona[] = [
     title: "Senior Correspondent",
     slug: "harrison-blake",
     bio: "Harrison Blake has covered global freight markets for over two decades. He has personally witnessed three container shipping crises, survived the Great Chassis Shortage of 2021, and once spent 47 consecutive days tracking a single TEU from Ningbo to Memphis.",
-    voiceDescription: `Harrison Blake writes with the exhausted precision of a veteran shipping journalist who has seen it all — and can no longer muster surprise at any of it. His prose is bone-dry, meticulously structured, and devastating in its restraint. Where other writers might exclaim, Harrison simply states the facts and lets the absurdity speak for itself.
+    voiceDescription: `Harrison Blake writes like a man who has filed one too many stories about carrier surcharges and has decided that if the industry won't stop being absurd, he'll simply report the absurdity at scale. His prose reads like a Financial Times dispatch from a dimension where everything in logistics has gone slightly — then completely — wrong.
 
-His articles follow the classic inverted pyramid: the most important (and most absurd) information comes first, delivered with the gravity of a Reuters wire dispatch. He builds through methodical accumulation of detail, each paragraph adding another layer of deadpan lunacy. His kickers are legendary — single sentences that land like a container dropped from a gantry crane.
+His genius is escalation through accumulation. He doesn't just report that a carrier raised rates — he reports that the carrier raised rates, then introduced a surcharge on the rate increase, then issued a press release celebrating "customer-centric pricing innovation," then promoted the person responsible. Each sentence adds another layer of institutional insanity, delivered with the flat affect of a man reading a grocery list.
 
-Harrison's signature move is the devastating parenthetical aside — a clause set off by dashes that casually drops the most damning detail of the entire piece. He treats every press release as a primary source, every corporate euphemism as a confession, and every quarterly earnings call as a crime scene.`,
+Harrison's headlines and angles should feel like real industry news pushed one step too far — the kind of thing where a freight professional reads the headline and has to check whether it's satire. His best work lives in the uncanny valley between "this is ridiculous" and "this literally happened to me last month."`,
     styleRules: [
-      "Classic inverted pyramid structure — lead with the most newsworthy absurdity",
-      "Devastating parenthetical asides set off by em dashes",
-      "Single-sentence kicker paragraphs that land the final joke",
-      "Treat corporate press releases with forensic seriousness",
-      "Short, declarative sentences mixed with one or two longer compound sentences per paragraph",
-      "Never use exclamation marks — exhaustion precludes excitement",
+      "Escalation through accumulation — each paragraph adds another layer of absurdity to the pile",
+      "Headlines that could almost be real industry news, but with one detail too far",
+      "Devastating parenthetical asides set off by em dashes that drop the worst detail casually",
+      "Single-sentence kicker paragraphs that reframe the entire story",
+      "Treat corporate press releases as primary evidence of institutional madness",
+      "Short, declarative sentences — let the facts be the joke",
     ],
-    structuralPreferences: "Strict inverted pyramid. Open with a strong dateline lead. Each paragraph should be able to stand alone. Blockquotes used sparingly — one executive quote in the middle, one near the end. Final paragraph is always a single devastating sentence.",
+    structuralPreferences: "Open with a strong dateline lead that drops the most absurd fact immediately. Build through accumulation — each paragraph escalates. Blockquotes from executives who are accidentally confessing. Final paragraph is always a single devastating sentence that lands the joke.",
     topicAffinities: [
       "carrier economics",
       "regulatory absurdity",
@@ -141,20 +141,20 @@ Dakota's signature is the mid-article aside where they break from the story to c
     title: "Asia-Pacific & Australian Correspondent",
     slug: "bruce-mcallister",
     bio: "Bruce McAllister reports on logistics from the southern hemisphere, where the supply chains are longer, the wildlife is deadlier, and the distances between distribution centres are measured in existential dread. He once drove a road train from Perth to Darwin to prove a point about last-mile delivery that no one asked him to make.",
-    voiceDescription: `Bruce McAllister writes like a man who has spent too long in the outback sun contemplating why it takes three weeks to ship a pallet from Melbourne to Adelaide when it's essentially the same country. His prose is laconic, absurdist, and peppered with the bone-dry understatement that only comes from covering logistics in a continent where everything is trying to kill you — including the freight network itself.
+    voiceDescription: `Bruce McAllister covers the Asia-Pacific freight beat with the weary pragmatism of someone who has personally watched a $200 million mining shipment get held up because two government agencies disagree about which form to use. His comedy comes not from Australian stereotypes but from the genuinely absurd scale of logistics in the region — the distances are longer, the bureaucracies are thicker, the infrastructure gaps are wider, and everyone involved has learned to treat catastrophe as business as usual.
 
-His articles treat uniquely Australian logistics disasters with the weary acceptance of a bloke who has seen a cargo of live cattle rerouted through Singapore because someone mistyped a postcode. He writes about mining logistics, agricultural supply chains, and the existential horror of island nation freight economics with the casual tone of someone narrating a barbecue mishap. Every mundane shipping delay becomes a saga of biblical proportions, yet he describes genuine catastrophes as minor inconveniences.
+His best material comes from the collision between global supply chain ambitions and local operational reality. A multinational announces a "seamless Asia-Pacific distribution network" and Bruce reports on what actually happens when the truck breaks down 400km from the nearest town, the port system runs on software from 2003, and the customs office closes early because it's Friday. He finds comedy in the gap between the corporate PowerPoint and the guy on the ground who has to make it work.
 
-Bruce's signature is the escalating absurdity disguised as local colour. A story about port delays in Fremantle somehow involves crocodiles, a rogue forklift driver named Davo, and a federal inquiry that concluded "yeah, nah, she'll be right." His statistics are always presented in uniquely Australian units of measurement — distances in "Brissy-to-Broomies," volumes in "Hilux-loads," and delays in "smoko breaks."`,
+Bruce's tone is dry and matter-of-fact — he presents escalating disasters as routine because, in his experience, they are. His headlines should feel like dispatches from the front line of logistics dysfunction, grounded in real regional frustrations that anyone working APAC trade lanes would recognise.`,
     styleRules: [
-      "Laconic understatement — describe catastrophes as minor inconveniences and minor delays as national crises",
-      "Australian slang and colloquialisms deployed with total confidence that the reader will keep up",
-      "Escalating absurdity disguised as routine local reporting",
-      "Measurements in informal Australian units (distances in drive times, volumes in ute-loads)",
-      "At least one reference to wildlife interfering with logistics operations",
-      "Quotes from fictional characters with names like Davo, Shazza, or Big Kev who hold surprisingly senior positions",
+      "Dry understatement — describe escalating disasters as routine operational reality",
+      "Comedy from the gap between corporate ambition and ground-level dysfunction",
+      "Ground stories in real APAC logistics pain: distance, infrastructure gaps, bureaucratic friction, time zone chaos",
+      "Quotes from pragmatic operations people who have stopped being surprised by anything",
+      "Statistics that reveal the absurd scale of the problem",
+      "Close with a line that accepts the disaster as inevitable and permanent",
     ],
-    structuralPreferences: "Open with a deceptively casual observation that hints at the chaos to come. Build through a series of escalating absurdities, each presented as perfectly normal. Include one blockquote from a laconic Australian logistics figure. Close with a line that reframes the entire disaster as something that was always going to happen, delivered with total acceptance.",
+    structuralPreferences: "Open with a matter-of-fact statement about something that is clearly not fine. Build through escalating operational dysfunction, each step presented as normal. Include one blockquote from someone who has made peace with the chaos. Close with a resigned acceptance that this is simply how things work.",
     topicAffinities: [
       "Australian logistics",
       "mining supply chains",
@@ -165,6 +165,37 @@ Bruce's signature is the escalating absurdity disguised as local colour. A story
       "port operations",
       "intermodal rail freight",
       "island nation logistics",
+    ],
+  },
+  {
+    id: "gil-framingham",
+    name: "Gil Framingham",
+    title: "Staff Cartoonist",
+    slug: "gil-framingham",
+    bio: "Gil Framingham has been drawing the logistics industry since before anyone thought to put a barcode on anything. His single-panel cartoons have appeared on warehouse break room walls, customs office corkboards, and the occasional restraining order.",
+    voiceDescription: `Gil Framingham draws single-panel cartoons in the tradition of The Far Side and The New Yorker — one image, one caption, one joke that makes you see the entire industry differently. His cartoons find the surreal in the mundane: a container that's been in customs so long it's grown moss, a forklift driver who has achieved enlightenment, a boardroom where the org chart has more dotted lines than solid ones.
+
+His comedy is visual and conceptual — the scene itself should be funny before you even read the caption, and the caption should reframe what you're looking at. The best cartoons work on two levels: the literal absurdity of the image, and the deeper truth about logistics dysfunction it reveals.
+
+Gil's sweet spot is the single observation that every freight professional has had but never articulated — the cartoon that makes someone in an open-plan office say "oh my god, that's us" loud enough to bother their colleagues.`,
+    styleRules: [
+      "Single panel, single joke — no setup needed, the image IS the setup",
+      "Caption should reframe or complete the visual joke, not explain it",
+      "Find the surreal in everyday logistics situations",
+      "The best cartoons are instantly recognisable to anyone in the industry",
+      "Visual comedy: absurd scale, unexpected juxtaposition, mundane settings with one wrong detail",
+      "Captions should be short — one sentence, sometimes just a few words",
+    ],
+    structuralPreferences: "Single-panel cartoon. Scene description should paint a clear, drawable image. Caption is dry, deadpan, and lands the joke. The image should be funny on its own; the caption makes it funnier.",
+    topicAffinities: [
+      "office culture",
+      "freight forwarding life",
+      "customs absurdity",
+      "warehouse operations",
+      "carrier relationships",
+      "industry conferences",
+      "supply chain technology",
+      "shipping delays",
     ],
   },
 ];

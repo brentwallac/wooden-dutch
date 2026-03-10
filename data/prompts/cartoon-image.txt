@@ -1,0 +1,16 @@
+Draw a single-panel cartoon in a clean, classic newspaper cartoon style similar to The Far Side by Gary Larson.
+
+**Scene:** {{scene}}
+
+**Caption:** "{{caption}}"
+
+Style requirements:
+- Clean black ink line drawing with minimal shading or light watercolour wash
+- Single panel, no borders or panel frames
+- Simple, slightly exaggerated character proportions — not realistic, not anime
+- Expressive faces and body language that sell the joke
+- The caption text must appear below the image in a clean serif font
+- Landscape orientation (16:9)
+- White or very light background
+- No speech bubbles — all dialogue goes in the caption below
+- The style should feel like a newspaper editorial cartoon — professional, clean, witty

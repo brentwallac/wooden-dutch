@@ -12,13 +12,14 @@ const topicSchema = z.object({
 });
 
 const candidatesSchema = z.object({
-  candidates: z.array(topicSchema).length(3).describe("Exactly 3 topic candidates"),
+  candidates: z.array(topicSchema).length(5).describe("Exactly 5 topic candidates"),
 });
 
 export async function brainstormTopics(
   state: PipelineStateType,
 ): Promise<Partial<PipelineStateType>> {
-  console.log("Brainstorming topic candidates...");
+  const author = state.assignedAuthor;
+  console.log(`Brainstorming topic candidates as ${author.name}...`);
 
   const avoidList =
     state.usedTopics.length > 0
@@ -36,8 +37,8 @@ export async function brainstormTopics(
 
   const promptText = loadPrompt("brainstorm", { avoidList, currentHeadlines }) + topicHint;
   const systemText = loadPrompt("system", {
-    authorName: "the editorial team",
-    authorVoice: "You are a seasoned logistics journalism team brainstorming satirical article topics.",
+    authorName: author.name,
+    authorVoice: author.voiceDescription,
   });
 
   const prompt = ChatPromptTemplate.fromMessages([

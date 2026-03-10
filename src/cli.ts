@@ -12,12 +12,12 @@ import { uploadImage } from "./services/ghost.js";
 
 // --- Reusable action functions ---
 
-async function actionGenerate(opts: { dryRun?: boolean; topicHint?: string }) {
+async function actionGenerate(opts: { dryRun?: boolean; topicHint?: string; cartoon?: boolean }) {
   const config = loadConfig();
   if (!opts.dryRun) {
     await testConnection(config);
   }
-  await runPipeline(config, { dryRun: opts.dryRun, topicHint: opts.topicHint });
+  await runPipeline(config, { dryRun: opts.dryRun, topicHint: opts.topicHint, cartoon: opts.cartoon });
 }
 
 async function actionGenerateBatch(count: number) {
@@ -130,6 +130,8 @@ async function interactiveMenu() {
     options: [
       { value: "dry-run", label: "Generate article (dry run)" },
       { value: "publish", label: "Generate article (publish)" },
+      { value: "cartoon", label: "Generate cartoon (dry run)" },
+      { value: "cartoon-publish", label: "Generate cartoon (publish)" },
       { value: "batch", label: "Generate batch of drafts" },
       { value: "list", label: "List saved drafts" },
       { value: "publish-draft", label: "Publish a draft" },
@@ -151,6 +153,14 @@ async function interactiveMenu() {
 
       case "publish":
         await actionGenerate({ dryRun: false });
+        break;
+
+      case "cartoon":
+        await actionGenerate({ dryRun: true, cartoon: true });
+        break;
+
+      case "cartoon-publish":
+        await actionGenerate({ dryRun: false, cartoon: true });
         break;
 
       case "batch": {
@@ -279,6 +289,22 @@ program
     try {
       const pattern = opts.all ? "all" : file;
       await actionPublish(pattern);
+    } catch (error) {
+      console.error(
+        "Error:",
+        error instanceof Error ? error.message : error,
+      );
+      process.exit(1);
+    }
+  });
+
+program
+  .command("cartoon")
+  .description("Generate a single-panel cartoon")
+  .option("--dry-run", "Generate cartoon but don't publish to Ghost")
+  .action(async (opts: { dryRun?: boolean }) => {
+    try {
+      await actionGenerate({ dryRun: opts.dryRun, cartoon: true });
     } catch (error) {
       console.error(
         "Error:",

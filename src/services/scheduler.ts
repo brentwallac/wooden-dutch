@@ -3,22 +3,24 @@ import type { Config } from "../config.js";
 
 export function startScheduler(
   config: Config,
+  schedule: string,
+  label: string,
   job: () => Promise<void>,
 ): Cron {
   console.log(
-    `Scheduler started: "${config.scheduler.cronSchedule}" (${config.scheduler.timezone})`,
+    `${label} scheduler started: "${schedule}" (${config.scheduler.timezone})`,
   );
 
-  const cron = new Cron(config.scheduler.cronSchedule, {
+  const cron = new Cron(schedule, {
     timezone: config.scheduler.timezone,
   }, async () => {
-    console.log(`[${new Date().toISOString()}] Scheduled run starting...`);
+    console.log(`[${new Date().toISOString()}] ${label} scheduled run starting...`);
     try {
       await job();
-      console.log(`[${new Date().toISOString()}] Scheduled run complete`);
+      console.log(`[${new Date().toISOString()}] ${label} scheduled run complete`);
     } catch (error) {
       console.error(
-        `[${new Date().toISOString()}] Scheduled run failed:`,
+        `[${new Date().toISOString()}] ${label} scheduled run failed:`,
         error instanceof Error ? error.message : error,
       );
     }
@@ -26,7 +28,7 @@ export function startScheduler(
 
   const next = cron.nextRun();
   if (next) {
-    console.log(`Next run: ${next.toISOString()}`);
+    console.log(`${label} next run: ${next.toISOString()}`);
   }
 
   return cron;

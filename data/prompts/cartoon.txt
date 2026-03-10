@@ -1,0 +1,23 @@
+Create a single-panel cartoon concept for The Wooden Dutch, a satirical logistics news publication.
+
+The cartoon should work like The Far Side or a New Yorker cartoon — one panel, one visual joke, one caption. The image should be funny before the reader even gets to the caption.
+
+Here are current real headlines from logistics industry news — you may use these as loose inspiration, but do NOT just illustrate a headline. Find your own angle.
+{{currentHeadlines}}
+{{avoidList}}
+
+IMPORTANT: Do NOT repeat themes from previous cartoons. Each cartoon must explore a completely different situation, setting, and joke. Think broadly across the full spectrum of logistics life — not just routing or maps.
+
+Requirements:
+- The scene must be visually clear and drawable — describe exactly what the viewer sees
+- The caption should be short (one sentence max) and land the joke
+- The cartoon should work WITHOUT the caption too — the visual situation should be inherently absurd or funny
+
+CRITICAL — what makes a great cartoon:
+- The Far Side never did "look, a cow is doing a human thing." It found a SURPRISING connection between two unrelated ideas. That's what makes it clever. Don't just illustrate a logistics frustration literally — find an unexpected angle, an absurd comparison, a twist.
+- The best single-panel cartoons work through MISDIRECTION. The viewer thinks they're looking at one thing, then the caption (or a small detail) reveals it's something else entirely.
+- Do NOT anthropomorphise containers, ships, or cargo. That's the lazy version of this joke. No containers sitting in chairs. No ships with feelings. The comedy should come from PEOPLE and SITUATIONS.
+- Do NOT do "logistics thing but it's a [doctor/funeral/therapy session]" — that's one-note and predictable. Find fresher frames.
+- Think about RELATIONSHIPS and POWER DYNAMICS: the forwarder vs the carrier, the ops team vs sales, the consultant vs reality, the customer vs the truth. The funniest cartoons capture a dynamic, not just a situation.
+- Captions should have a TWIST — the reader should have to do a tiny bit of work to get the joke. If the caption just describes what's in the image, it's not clever enough.
+- Dark is good but CLEVER is better. Wit over weight.

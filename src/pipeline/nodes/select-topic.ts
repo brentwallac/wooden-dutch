@@ -13,7 +13,7 @@ const TOPICS_FILE = join(DATA_DIR, "topics-used.json");
 const MAX_HISTORY = 50;
 
 const selectionSchema = z.object({
-  selectedIndex: z.number().int().min(0).max(2).describe("Index of the selected candidate (0, 1, or 2)"),
+  selectedIndex: z.number().int().min(0).max(4).describe("Index of the selected candidate (0-4)"),
   reasoning: z.string().describe("Brief explanation of why this topic was selected"),
 });
 

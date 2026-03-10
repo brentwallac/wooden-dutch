@@ -1,4 +1,4 @@
-Generate exactly 3 satirical news topic candidates for The Wooden Dutch, a logistics industry satire publication.
+Generate exactly 5 satirical news topic candidates for The Wooden Dutch, a logistics industry satire publication.
 
 Each topic should cover a DIFFERENT area from this list:
 - Ocean freight and container shipping
@@ -18,6 +18,10 @@ Make each topic distinct in tone and subject matter. One should be absurdist, on
 Draw heavily on the everyday office culture of freight forwarders — the chaotic email chains, the "urgent" shipments that sit for weeks, the ops team vs sales rivalry, the customer who changes the PO number for the fifth time, the booking confirmations that contradict themselves, and the quiet desperation of anyone who has ever had to chase a carrier for a POD.
 
 Headlines MUST be concise — aim for 8 words or fewer. The best headlines are short, sharp, and punchy. Brevity is the soul of wit. Think tabloid energy, not academic paper. A great headline makes you laugh before you've finished reading it.
+
+A headline that just describes a real frustration is NOT satire — it's an observation. "Customs Broker Manually Keys Data Into Seven Systems" is not funny because it's just... true. There's no twist. Every headline needs a TURN — an unexpected escalation, a punchline, a reframing. "Customs Broker Manually Keys Data Into Seven Systems, Receives Innovation Award" has a turn. The turn is what makes it comedy.
+
+Also draw on broader world events that impact freight — geopolitics, conflicts, trade wars, tariffs, sanctions. The funniest logistics satire connects the big-picture chaos (wars, diplomacy, policy) to the ground-level reality (a forwarder just trying to get a container from A to B). That gap is where the comedy lives.
 
 Here are current real headlines from logistics industry news — use these as inspiration to make your topics timely and relevant:
 {{currentHeadlines}}
