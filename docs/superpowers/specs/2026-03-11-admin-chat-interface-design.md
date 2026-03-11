@@ -222,7 +222,6 @@ New env vars:
 ```
 ADMIN_PORT=3000              # Admin server port (default 3000)
 ADMIN_PASSWORD=...           # Admin login password
-ADMIN_SESSION_SECRET=...     # Cookie signing secret
 ```
 
 New command:
