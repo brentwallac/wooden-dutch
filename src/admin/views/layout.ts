@@ -27,6 +27,13 @@ export function layout(title: string, content: string, includeHtmx = true): stri
       if (type === 'close') {
         var streamEl = document.getElementById('streaming-msg');
         if (streamEl) {
+          // Final render: use marked for markdown, leave HTML as-is
+          var raw = window._streamText['current'] || '';
+          var msgContent = streamEl.querySelector('.msg-content');
+          if (msgContent && raw) {
+            var looksLikeHtml = /^\s*<[a-z][\s\S]*>/i.test(raw);
+            msgContent.innerHTML = looksLikeHtml ? raw : marked.parse(raw);
+          }
           streamEl.removeAttribute('hx-ext');
           streamEl.removeAttribute('sse-connect');
           streamEl.removeAttribute('id');
@@ -58,8 +65,8 @@ export function layout(title: string, content: string, includeHtmx = true): stri
       if (!window._streamText['current']) window._streamText['current'] = '';
       window._streamText['current'] += e.detail.data;
 
-      // Render markdown
-      msgContent.innerHTML = marked.parse(window._streamText['current']);
+      // During streaming, show raw text without marked to avoid mangling partial HTML
+      msgContent.textContent = window._streamText['current'];
 
       // Only auto-scroll if user is near the bottom already
       var messages = document.getElementById('messages');
