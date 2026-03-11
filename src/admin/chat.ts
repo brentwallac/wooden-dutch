@@ -15,6 +15,7 @@ import { streamChat } from "./claude.js";
 import { assembleSystemContext } from "./context.js";
 import { chatPage } from "./views/chat.js";
 import { messageBubble, streamingBubble, actionButtons } from "./views/components.js";
+import { handleRunPipeline } from "./actions.js";
 
 const chat = new Hono();
 const config = loadConfig();
@@ -156,6 +157,23 @@ chat.get("/admin/chat/:id/stream", async (c) => {
       activeStreams.delete(conversationId);
     }
   });
+});
+
+// --- Action endpoint ---
+chat.post("/admin/chat/:id/action", async (c) => {
+  const body = await c.req.parseBody();
+  const action = body.action as string;
+
+  switch (action) {
+    case "pipeline": {
+      const messages = getMessages(c.req.param("id"));
+      const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
+      const result = await handleRunPipeline(config, lastUserMsg?.content);
+      return c.html(result.html);
+    }
+    default:
+      return c.html(`<div class="action-result">Action "${action}" — coming in next iteration.</div>`);
+  }
 });
 
 // --- Delete conversation ---
