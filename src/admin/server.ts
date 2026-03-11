@@ -4,6 +4,7 @@ import { loadConfig } from "../config.js";
 import { initSchema, seedAuthorsIfEmpty } from "./db.js";
 import { verifyPassword, createNewSession, validateSession, destroySession, getSessionCookieName } from "./auth.js";
 import { loginPage } from "./views/login.js";
+import { chat } from "./chat.js";
 
 const config = loadConfig();
 
@@ -73,9 +74,7 @@ app.use("/admin/*", async (c, next) => {
   return next();
 });
 
-app.get("/admin", (c) => {
-  return c.html("<h1>Admin — coming soon</h1>");
-});
+app.route("/", chat);
 
 // --- Start ---
 const port = config.admin.port ?? 3000;
