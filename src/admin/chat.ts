@@ -15,7 +15,7 @@ import { streamChat } from "./claude.js";
 import { assembleSystemContext } from "./context.js";
 import { chatPage } from "./views/chat.js";
 import { messageBubble, streamingBubble, actionButtons } from "./views/components.js";
-import { handleRunPipeline } from "./actions.js";
+import { handleRunPipeline, handleRunPipelineStreaming } from "./actions.js";
 
 const chat = new Hono();
 const config = loadConfig();
@@ -168,8 +168,12 @@ chat.post("/admin/chat/:id/action", async (c) => {
     case "pipeline": {
       const messages = getMessages(c.req.param("id"));
       const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
-      const result = await handleRunPipeline(config, lastUserMsg?.content);
-      return c.html(result.html);
+
+      return streamSSE(c, async (stream) => {
+        for await (const html of handleRunPipelineStreaming(config, lastUserMsg?.content)) {
+          await stream.writeSSE({ event: "chunk", data: html });
+        }
+      });
     }
     default:
       return c.html(`<div class="action-result">Action "${action}" — coming in next iteration.</div>`);

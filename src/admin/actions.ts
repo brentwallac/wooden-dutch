@@ -75,6 +75,26 @@ export async function handleRunPipeline(
   }
 }
 
+export async function* handleRunPipelineStreaming(
+  config: Config,
+  topicHint?: string,
+): AsyncGenerator<string> {
+  const { runPipelineWithProgress } = await import("../pipeline/index.js");
+
+  yield `<div class="pipeline-progress">`;
+  try {
+    for await (const event of runPipelineWithProgress(config, { topicHint, saveOnly: true })) {
+      yield `<div class="progress-step">${event.status}</div>`;
+    }
+    invalidateContextCache();
+    yield `<div class="action-result success">Pipeline complete!</div>`;
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : "Unknown error";
+    yield `<div class="action-result error">Pipeline failed: ${msg}</div>`;
+  }
+  yield `</div>`;
+}
+
 export function handleAuthorUpdate(author: AuthorPersona): ActionResult {
   try {
     upsertAuthor(author);

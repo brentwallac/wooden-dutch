@@ -245,3 +245,19 @@ body {
   color: inherit;
   text-decoration: underline;
 }
+
+.pipeline-progress {
+  padding: 0.5rem 0;
+}
+
+.progress-step {
+  padding: 0.25rem 0;
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+}
+
+.progress-step::before {
+  content: "\2192 ";
+  color: #999;
+}
