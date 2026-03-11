@@ -110,9 +110,34 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex: 1;
+  max-width: 160px;
 }
 
 .conv-date { color: #999; font-size: 0.75rem; margin-left: 0.5rem; }
+
+.conv-item-wrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.conv-item-wrap .conv-item { border-bottom: none; flex: 1; }
+.conv-item-wrap:hover { background: #f0ece4; }
+.conv-item-wrap.active { background: #e8e2d6; }
+
+.conv-delete {
+  background: none;
+  border: none;
+  color: #bbb;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  line-height: 1;
+  visibility: hidden;
+}
+
+.conv-item-wrap:hover .conv-delete { visibility: visible; color: #999; }
+.conv-delete:hover { color: #a00; }
 
 /* --- Chat --- */
 .chat-area {
@@ -132,6 +157,7 @@ body {
   gap: 0.75rem;
   margin-bottom: 1.25rem;
   max-width: 800px;
+  flex-wrap: wrap;
 }
 
 .msg-role {
@@ -192,9 +218,15 @@ body {
 .action-buttons {
   display: flex;
   gap: 0.5rem;
-  padding: 0.75rem 0;
+  padding: 0.75rem 0 0.75rem 50px;
   flex-wrap: wrap;
   align-items: center;
+  margin-left: 0.75rem;
+}
+
+.msg-actions {
+  width: 100%;
+  grid-column: 1 / -1;
 }
 
 /* --- Status bar --- */
@@ -261,3 +293,69 @@ body {
   content: "\2192 ";
   color: #999;
 }
+
+.pipeline-image {
+  margin: 0.75rem 0;
+}
+
+.pipeline-image img {
+  max-width: 100%;
+  width: 600px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* --- Markdown prose in assistant messages --- */
+.msg-assistant .msg-content h1,
+.msg-assistant .msg-content h2,
+.msg-assistant .msg-content h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+}
+
+.msg-assistant .msg-content h1 { font-size: 1.25rem; }
+
+.msg-assistant .msg-content p { margin: 0.5rem 0; }
+
+.msg-assistant .msg-content ul,
+.msg-assistant .msg-content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.msg-assistant .msg-content li { margin: 0.25rem 0; }
+
+.msg-assistant .msg-content code {
+  background: #e8e2d6;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.85em;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+
+.msg-assistant .msg-content pre {
+  background: #1a1a1a;
+  color: #f5f1eb;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.msg-assistant .msg-content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.msg-assistant .msg-content blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 1rem;
+  color: #555;
+  margin: 0.75rem 0;
+  font-style: italic;
+}
+
+.msg-assistant .msg-content strong { font-weight: 700; }
+.msg-assistant .msg-content em { font-style: italic; }

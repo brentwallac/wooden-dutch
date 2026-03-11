@@ -16,6 +16,7 @@ const PipelineState = Annotation.Root({
   revisionCount: Annotation<number>,
   article: Annotation<GeneratedArticle>,
   imageUrl: Annotation<string | null>,
+  publishedUrl: Annotation<string | null>,
   industryHeadlines: Annotation<string[]>,
 });
 

@@ -1,7 +1,13 @@
-thedutchwood.com {
-	reverse_proxy ghost:2368
+betweentwoports.com {
+	handle /admin* {
+		reverse_proxy admin:3000
+	}
+
+	handle {
+		reverse_proxy ghost:2368
+	}
 }
 
-www.thedutchwood.com {
-	redir https://thedutchwood.com{uri} permanent
+www.betweentwoports.com {
+	redir https://betweentwoports.com{uri} permanent
 }

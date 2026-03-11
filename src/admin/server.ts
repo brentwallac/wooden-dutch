@@ -26,6 +26,18 @@ app.get("/admin/style.css", async (c) => {
   return c.text(css, 200, { "Content-Type": "text/css" });
 });
 
+app.get("/admin/images/:filename", async (c) => {
+  const filename = c.req.param("filename");
+  // Prevent path traversal
+  if (filename.includes("..") || filename.includes("/")) {
+    return c.text("Not found", 404);
+  }
+  const filepath = new URL(`../../data/drafts/images/${filename}`, import.meta.url).pathname;
+  const file = Bun.file(filepath);
+  if (!(await file.exists())) return c.text("Not found", 404);
+  return new Response(file, { headers: { "Content-Type": file.type || "image/jpeg" } });
+});
+
 // --- Auth middleware ---
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isAuthenticated(c: any): boolean {
@@ -78,7 +90,7 @@ app.route("/", chat);
 
 // --- Start ---
 const port = config.admin.port ?? 3000;
-console.log(`Admin server starting on http://localhost:${port}/admin`);
+console.log(`Between Two Ports — Writer's Room starting on http://localhost:${port}/admin`);
 
 export default {
   port,

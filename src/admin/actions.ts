@@ -78,16 +78,46 @@ export async function handleRunPipeline(
 export async function* handleRunPipelineStreaming(
   config: Config,
   topicHint?: string,
+  saveOnly = true,
 ): AsyncGenerator<string> {
   const { runPipelineWithProgress } = await import("../pipeline/index.js");
+  const { basename } = await import("node:path");
 
   yield `<div class="pipeline-progress">`;
   try {
-    for await (const event of runPipelineWithProgress(config, { topicHint, saveOnly: true })) {
+    let imageFilename: string | null = null;
+    let publishedUrl: string | null = null;
+
+    for await (const event of runPipelineWithProgress(config, { topicHint, saveOnly })) {
       yield `<div class="progress-step">${event.status}</div>`;
+
+      // Capture image path from the generateImage node
+      if (event.node === "generateImage" && event.state?.imageUrl) {
+        const imageUrl = event.state.imageUrl as string;
+        if (imageUrl !== "dry-run" && !imageUrl.startsWith("http")) {
+          imageFilename = basename(imageUrl);
+        }
+      }
+
+      // Capture published URL from the publish node
+      if (event.node === "publish" && event.state?.publishedUrl) {
+        publishedUrl = event.state.publishedUrl as string;
+      }
     }
+
     invalidateContextCache();
-    yield `<div class="action-result success">Pipeline complete!</div>`;
+
+    if (imageFilename) {
+      yield `<div class="pipeline-image"><img src="/admin/images/${imageFilename}" alt="Generated feature image"></div>`;
+    }
+
+    if (publishedUrl) {
+      yield `<div class="action-result success">Published! <a href="${publishedUrl}" target="_blank">${publishedUrl}</a></div>`;
+    } else if (!saveOnly) {
+      yield `<div class="action-result success">Published to Ghost!</div>`;
+    } else {
+      yield `<div class="action-result success">Pipeline complete! Draft saved locally.</div>`;
+    }
   } catch (error) {
     const msg = error instanceof Error ? error.message : "Unknown error";
     yield `<div class="action-result error">Pipeline failed: ${msg}</div>`;

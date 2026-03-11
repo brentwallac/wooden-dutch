@@ -10,15 +10,15 @@ export function messageBubble(role: "user" | "assistant", content: string, id?: 
 
 export function streamingBubble(conversationId: string): string {
   return `
-    <div class="message msg-assistant" id="streaming-msg">
+    <div class="message msg-assistant" id="streaming-msg"
+      hx-ext="sse"
+      sse-connect="/admin/chat/${conversationId}/stream">
       <div class="msg-role">Claude</div>
-      <div class="msg-content"
-        hx-ext="sse"
-        sse-connect="/admin/chat/${conversationId}/stream"
-        sse-swap="chunk"
-        hx-swap="beforeend">
+      <div class="msg-content">
         <span class="typing">Thinking...</span>
       </div>
+      <div hidden sse-swap="chunk" hx-swap="none"></div>
+      <div class="msg-actions" sse-swap="actions" hx-swap="innerHTML"></div>
     </div>`;
 }
 
@@ -29,17 +29,7 @@ export function actionButtons(conversationId: string): string {
               hx-vals='{"action":"publish"}'
               hx-target="#action-status"
               hx-swap="innerHTML"
-              class="btn btn-primary">Publish to Ghost</button>
-      <button hx-post="/admin/chat/${conversationId}/action"
-              hx-vals='{"action":"draft"}'
-              hx-target="#action-status"
-              hx-swap="innerHTML"
-              class="btn btn-secondary">Save as Draft</button>
-      <button hx-post="/admin/chat/${conversationId}/action"
-              hx-vals='{"action":"pipeline"}'
-              hx-target="#action-status"
-              hx-swap="innerHTML"
-              class="btn btn-secondary">Run Pipeline</button>
+              class="btn btn-primary">Publish</button>
       <div id="action-status"></div>
     </div>`;
 }
@@ -48,10 +38,13 @@ export function conversationListItem(id: string, title: string, updatedAt: strin
   const cls = isActive ? "conv-item active" : "conv-item";
   const date = updatedAt.slice(0, 10);
   return `
-    <a href="/admin/chat/${id}" class="${cls}" hx-get="/admin/chat/${id}" hx-push-url="true" hx-target="#main-content" hx-swap="innerHTML">
-      <span class="conv-title">${escapeHtml(title)}</span>
-      <span class="conv-date">${date}</span>
-    </a>`;
+    <div class="conv-item-wrap ${isActive ? "active" : ""}">
+      <a href="/admin/chat/${id}" class="${cls}" hx-get="/admin/chat/${id}" hx-push-url="true" hx-target="#main-content" hx-swap="innerHTML">
+        <span class="conv-title">${escapeHtml(title)}</span>
+        <span class="conv-date">${date}</span>
+      </a>
+      <button class="conv-delete" hx-delete="/admin/chat/${id}" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="/admin" hx-confirm="Delete this conversation?" title="Delete">&times;</button>
+    </div>`;
 }
 
 export function authorCard(author: { id: string; name: string; title: string; topicAffinities: string[] }): string {

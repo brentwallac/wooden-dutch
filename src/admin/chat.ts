@@ -13,7 +13,7 @@ import {
 } from "./db.js";
 import { streamChat } from "./claude.js";
 import { assembleSystemContext } from "./context.js";
-import { chatPage } from "./views/chat.js";
+import { chatPage, chatPagePartial } from "./views/chat.js";
 import { messageBubble, streamingBubble, actionButtons } from "./views/components.js";
 import { handleRunPipeline, handleRunPipelineStreaming } from "./actions.js";
 
@@ -62,6 +62,11 @@ chat.get("/admin/chat/:id", async (c) => {
     role: m.role as "user" | "assistant",
     content: m.content,
   }));
+
+  // HTMX partial load — return just sidebar + chat area, not the full page
+  if (c.req.header("HX-Request")) {
+    return c.html(chatPagePartial(conversations, id, formatted, authors));
+  }
   return c.html(chatPage(conversations, id, formatted, authors));
 });
 
@@ -119,16 +124,24 @@ chat.post("/admin/chat/:id/message", async (c) => {
 // --- SSE stream: consumes the shared Claude generator started by POST ---
 chat.get("/admin/chat/:id/stream", async (c) => {
   const conversationId = c.req.param("id");
-  const streamState = activeStreams.get(conversationId);
+
+  // Wait briefly for the stream to be set up (race between POST response and SSE connect)
+  let streamState = activeStreams.get(conversationId);
+  if (!streamState) {
+    await new Promise((r) => setTimeout(r, 500));
+    streamState = activeStreams.get(conversationId);
+  }
 
   if (!streamState) {
+    // No active stream — return empty and close immediately (don't show error for SSE reconnects)
     return streamSSE(c, async (stream) => {
-      await stream.writeSSE({ event: "chunk", data: "<div class='error'>No active stream.</div>" });
+      await stream.writeSSE({ event: "close", data: "" });
     });
   }
 
   return streamSSE(c, async (stream) => {
     try {
+      console.log(`[SSE] Starting stream for conversation ${conversationId}`);
       // Consume the shared generator (started in POST handler)
       for await (const chunk of streamState.generator) {
         streamState.chunks.push(chunk);
@@ -140,9 +153,12 @@ chat.get("/admin/chat/:id/stream", async (c) => {
       addMessage(streamState.assistantMsgId, conversationId, "assistant", fullResponse);
 
       // Send action buttons
-      await stream.writeSSE({ event: "chunk", data: actionButtons(conversationId) });
-      await stream.writeSSE({ event: "done", data: "" });
+      await stream.writeSSE({ event: "actions", data: actionButtons(conversationId) });
+
+      // Signal completion — client will close the SSE connection
+      await stream.writeSSE({ event: "close", data: "" });
     } catch (error) {
+      console.error(`[SSE] Stream error:`, error);
       const msg = error instanceof Error ? error.message : "Unknown error";
       // Save partial response if any
       if (streamState.chunks.length > 0) {
@@ -153,6 +169,7 @@ chat.get("/admin/chat/:id/stream", async (c) => {
         event: "chunk",
         data: `<div class="error">Error: ${msg}. Try again.</div>`,
       });
+      await stream.writeSSE({ event: "close", data: "" });
     } finally {
       activeStreams.delete(conversationId);
     }
@@ -163,14 +180,13 @@ chat.get("/admin/chat/:id/stream", async (c) => {
 chat.post("/admin/chat/:id/action", async (c) => {
   const body = await c.req.parseBody();
   const action = body.action as string;
+  const messages = getMessages(c.req.param("id"));
+  const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
 
   switch (action) {
-    case "pipeline": {
-      const messages = getMessages(c.req.param("id"));
-      const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
-
+    case "publish": {
       return streamSSE(c, async (stream) => {
-        for await (const html of handleRunPipelineStreaming(config, lastUserMsg?.content)) {
+        for await (const html of handleRunPipelineStreaming(config, lastUserMsg?.content, false)) {
           await stream.writeSSE({ event: "chunk", data: html });
         }
       });
@@ -184,6 +200,13 @@ chat.post("/admin/chat/:id/action", async (c) => {
 chat.delete("/admin/chat/:id", async (c) => {
   const id = c.req.param("id");
   deleteConversation(id);
+
+  // HTMX request — return updated sidebar + empty chat area
+  if (c.req.header("HX-Request")) {
+    const conversations = listConversations();
+    const authors = getAllAuthors();
+    return c.html(chatPagePartial(conversations, null, [], authors));
+  }
   return c.redirect("/admin");
 });
 

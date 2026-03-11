@@ -12,13 +12,34 @@ services:
       - caddy_config:/config
     depends_on:
       - ghost
+      - admin
 
   ghost:
     ports: !override []
     environment:
-      url: https://thedutchwood.com
+      url: https://betweentwoports.com
       NODE_ENV: production
+
+  admin:
+    build: .
+    restart: unless-stopped
+    environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      ADMIN_PORT: 3000
+      GHOST_URL: https://betweentwoports.com
+      GHOST_ADMIN_API_KEY: ${GHOST_ADMIN_API_KEY}
+      AUTO_PUBLISH: ${AUTO_PUBLISH:-true}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      ANTHROPIC_MODEL_ID: ${ANTHROPIC_MODEL_ID:-claude-sonnet-4-5-20250929}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL_ID: ${GEMINI_MODEL_ID:-gemini-3-pro-image-preview}
+      MAX_TOKENS: ${MAX_TOKENS:-4096}
+    volumes:
+      - admin_data:/app/data/db
+      - admin_images:/app/data/drafts/images
 
 volumes:
   caddy_data:
   caddy_config:
+  admin_data:
+  admin_images:

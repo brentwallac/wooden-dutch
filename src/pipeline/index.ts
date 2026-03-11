@@ -52,6 +52,7 @@ function buildInitialState(
       tags: [], authorName: "", authorSlug: "",
     },
     imageUrl: null,
+    publishedUrl: null,
     industryHeadlines: [],
   };
 }
@@ -115,10 +116,12 @@ export async function* runPipelineWithProgress(
     publish: "Publishing...",
   };
 
+  let lastEvent: Record<string, unknown> = {};
   for await (const event of await selectedGraph.stream(initialState)) {
     const nodeName = Object.keys(event)[0];
     if (nodeName) {
-      yield { node: nodeName, status: nodeLabels[nodeName] ?? `Running ${nodeName}...` };
+      lastEvent = event[nodeName] as Record<string, unknown>;
+      yield { node: nodeName, status: nodeLabels[nodeName] ?? `Running ${nodeName}...`, state: lastEvent };
     }
   }
 }

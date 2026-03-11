@@ -37,5 +37,5 @@ export async function publish(
 
   await saveRecentAuthorId(state.assignedAuthor.id);
 
-  return {};
+  return { publishedUrl: url };
 }

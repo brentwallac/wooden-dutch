@@ -1,0 +1,10 @@
+node_modules
+.env
+data/db
+data/drafts
+data/topics-used.json
+data/*.db*
+ghost/
+.git
+*.md
+deploy/
