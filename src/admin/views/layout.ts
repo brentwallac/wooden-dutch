@@ -65,8 +65,14 @@ export function layout(title: string, content: string, includeHtmx = true): stri
       if (!window._streamText['current']) window._streamText['current'] = '';
       window._streamText['current'] += e.detail.data;
 
-      // During streaming, show raw text without marked to avoid mangling partial HTML
-      msgContent.textContent = window._streamText['current'];
+      // Render progressively — use marked for markdown, innerHTML for HTML
+      var raw = window._streamText['current'];
+      var looksLikeHtml = /^\s*<[a-z]/i.test(raw);
+      if (looksLikeHtml) {
+        msgContent.innerHTML = raw;
+      } else {
+        try { msgContent.innerHTML = marked.parse(raw); } catch(ex) { msgContent.textContent = raw; }
+      }
 
       // Only auto-scroll if user is near the bottom already
       var messages = document.getElementById('messages');
