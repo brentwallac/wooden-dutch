@@ -6,7 +6,7 @@ set -euo pipefail
 #   curl -sSL https://raw.githubusercontent.com/YOUR_USER/wooden-dutch/main/deploy/setup.sh | bash
 #
 # Prerequisites:
-#   - Domain thedutchwood.com A record pointing to this Droplet's IP
+#   - Domain betweentwoports.com A record pointing to this Droplet's IP
 #   - Git repo accessible (public or deploy key configured)
 
 APP_DIR="/opt/wooden-dutch"
@@ -33,7 +33,7 @@ if [ ! -f .env ]; then
     echo ""
     echo "!! IMPORTANT: Edit $APP_DIR/.env before starting !!"
     echo "   - Set real MYSQL_ROOT_PASSWORD and MYSQL_PASSWORD (use: openssl rand -base64 32)"
-    echo "   - Set GHOST_URL=https://thedutchwood.com"
+    echo "   - Set GHOST_URL=https://betweentwoports.com"
     echo "   - Set GHOST_ADMIN_API_KEY after first Ghost admin setup"
     echo "   - Set AWS credentials for article generation"
     echo ""
@@ -46,6 +46,6 @@ echo ""
 echo "==> Done! Next steps:"
 echo "   1. Edit $APP_DIR/.env with real credentials"
 echo "   2. Restart: cd $APP_DIR && docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
-echo "   3. Set up Ghost admin: https://thedutchwood.com/ghost/"
+echo "   3. Set up Ghost admin: https://betweentwoports.com/ghost/"
 echo "   4. Activate the 'wooden-dutch' theme in Ghost Admin > Settings > Design"
 echo "   5. Create author accounts: harrison-blake, priya-chandrasekaran, jean-baptiste-mercier, dakota-chen"

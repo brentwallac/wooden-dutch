@@ -34,7 +34,7 @@ VALUES
    'Harrison Blake',
    'harrison-blake',
    '\$2b\$10\$invalidhashnotforlogin000000000000000000000000000000',
-   'harrison.blake@thedutchwood.com',
+   'harrison.blake@betweentwoports.com',
    'active', 'public', NOW(), '1')
 ON DUPLICATE KEY UPDATE name=VALUES(name);
 "
@@ -46,7 +46,7 @@ VALUES
    'Priya Chandrasekaran',
    'priya-chandrasekaran',
    '\$2b\$10\$invalidhashnotforlogin000000000000000000000000000000',
-   'priya.chandrasekaran@thedutchwood.com',
+   'priya.chandrasekaran@betweentwoports.com',
    'active', 'public', NOW(), '1')
 ON DUPLICATE KEY UPDATE name=VALUES(name);
 "
@@ -58,7 +58,7 @@ VALUES
    'Jean-Baptiste Mercier',
    'jean-baptiste-mercier',
    '\$2b\$10\$invalidhashnotforlogin000000000000000000000000000000',
-   'jean-baptiste.mercier@thedutchwood.com',
+   'jean-baptiste.mercier@betweentwoports.com',
    'active', 'public', NOW(), '1')
 ON DUPLICATE KEY UPDATE name=VALUES(name);
 "
@@ -70,7 +70,7 @@ VALUES
    'Dakota Chen',
    'dakota-chen',
    '\$2b\$10\$invalidhashnotforlogin000000000000000000000000000000',
-   'dakota.chen@thedutchwood.com',
+   'dakota.chen@betweentwoports.com',
    'active', 'public', NOW(), '1')
 ON DUPLICATE KEY UPDATE name=VALUES(name);
 "

@@ -171,8 +171,8 @@ export function createConversation(id: string, title?: string): void {
 
 export function listConversations(limit = 20): Array<{ id: string; title: string; updatedAt: string }> {
   return getDb().query(
-    "SELECT id, title, updated_at as updatedAt FROM conversations ORDER BY updated_at DESC LIMIT $limit"
-  ).all({ $limit: limit }) as Array<{ id: string; title: string; updatedAt: string }>;
+    `SELECT id, title, updated_at as updatedAt FROM conversations ORDER BY updated_at DESC LIMIT ${Number(limit)}`
+  ).all() as Array<{ id: string; title: string; updatedAt: string }>;
 }
 
 export function addMessage(id: string, conversationId: string, role: string, content: string, metadata?: Record<string, unknown>): void {
@@ -190,7 +190,7 @@ export function addMessage(id: string, conversationId: string, role: string, con
 
 export function getMessages(conversationId: string, limit = 50): Array<{ id: string; role: string; content: string; metadata: string; createdAt: string }> {
   return getDb().query(
-    "SELECT * FROM (SELECT id, role, content, metadata, created_at as createdAt FROM messages WHERE conversation_id = $cid ORDER BY created_at DESC LIMIT $limit) ORDER BY createdAt ASC"
+    `SELECT * FROM (SELECT id, role, content, metadata, created_at as createdAt FROM messages WHERE conversation_id = $cid ORDER BY created_at DESC LIMIT ${Number(limit)}) ORDER BY createdAt ASC`
   ).all({ $cid: conversationId }) as Array<{ id: string; role: string; content: string; metadata: string; createdAt: string }>;
 }
 
