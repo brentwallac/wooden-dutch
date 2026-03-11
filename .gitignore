@@ -10,3 +10,6 @@ ghost/content/themes/*
 *.log
 .DS_Store
 .superpowers/
+data/wooden-dutch.db
+data/wooden-dutch.db-wal
+data/wooden-dutch.db-shm
