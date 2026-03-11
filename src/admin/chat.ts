@@ -185,11 +185,11 @@ chat.post("/admin/chat/:id/action", async (c) => {
 
   switch (action) {
     case "publish": {
-      return streamSSE(c, async (stream) => {
-        for await (const html of handleRunPipelineStreaming(config, lastUserMsg?.content, false)) {
-          await stream.writeSSE({ event: "chunk", data: html });
-        }
-      });
+      const chunks: string[] = [];
+      for await (const html of handleRunPipelineStreaming(config, lastUserMsg?.content, false)) {
+        chunks.push(html);
+      }
+      return c.html(chunks.join(""));
     }
     default:
       return c.html(`<div class="action-result">Action "${action}" — coming in next iteration.</div>`);

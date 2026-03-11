@@ -1,6 +1,8 @@
 betweentwoports.com {
 	handle /admin* {
-		reverse_proxy admin:3000
+		reverse_proxy admin:3000 {
+			flush_interval -1
+		}
 	}
 
 	handle {
