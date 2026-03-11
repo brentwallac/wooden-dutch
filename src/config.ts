@@ -24,6 +24,10 @@ const configSchema = z.object({
     cartoonCronSchedule: z.string().default("0 12 * * *"),
     timezone: z.string().default("Australia/Sydney"),
   }),
+  admin: z.object({
+    port: z.coerce.number().int().positive().default(3000),
+    password: z.string().optional(),
+  }).default({}),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -48,6 +52,10 @@ export function loadConfig(): Config {
       cronSchedule: process.env.CRON_SCHEDULE,
       cartoonCronSchedule: process.env.CARTOON_CRON_SCHEDULE,
       timezone: process.env.CRON_TIMEZONE,
+    },
+    admin: {
+      port: process.env.ADMIN_PORT,
+      password: process.env.ADMIN_PASSWORD,
     },
   });
 }
