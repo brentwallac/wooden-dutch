@@ -84,3 +84,41 @@ export async function runPipeline(
     article: result.article,
   };
 }
+
+export async function* runPipelineWithProgress(
+  config: Config,
+  options?: { dryRun?: boolean; saveOnly?: boolean; topicHint?: string; cartoon?: boolean },
+): AsyncGenerator<{ node: string; status: string }> {
+  const isCartoon = options?.cartoon ?? false;
+
+  const usedTopics = await loadUsedTopics();
+  const recentAuthorIds = await loadRecentAuthorIds();
+  const initialState = buildInitialState(config, options ?? {}, usedTopics, recentAuthorIds);
+
+  if (isCartoon) {
+    const { getAuthorById } = await import("../data/authors.js");
+    initialState.assignedAuthor = getAuthorById("gil-framingham");
+  }
+
+  const selectedGraph = isCartoon ? cartoonGraph : graph;
+
+  const nodeLabels: Record<string, string> = {
+    researchNews: "Researching news...",
+    assignAuthor: "Assigning author...",
+    brainstormTopics: "Brainstorming topics...",
+    selectTopic: "Selecting topic...",
+    writeArticle: "Writing article...",
+    reviewArticle: "Reviewing article...",
+    reviseArticle: "Revising article...",
+    formatArticle: "Formatting...",
+    generateImage: "Generating image...",
+    publish: "Publishing...",
+  };
+
+  for await (const event of await selectedGraph.stream(initialState)) {
+    const nodeName = Object.keys(event)[0];
+    if (nodeName) {
+      yield { node: nodeName, status: nodeLabels[nodeName] ?? `Running ${nodeName}...` };
+    }
+  }
+}
