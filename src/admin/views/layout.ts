@@ -31,6 +31,8 @@ export function layout(title: string, content: string, includeHtmx = true): stri
           streamEl.removeAttribute('sse-connect');
           streamEl.removeAttribute('id');
           window._streamText = {};
+          // Re-process so HTMX picks up hx-post on injected action buttons
+          htmx.process(streamEl);
         }
         e.preventDefault();
         return;
