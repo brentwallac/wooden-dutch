@@ -5,6 +5,8 @@ import { initSchema, seedAuthorsIfEmpty } from "./db.js";
 import { verifyPassword, createNewSession, validateSession, destroySession, getSessionCookieName } from "./auth.js";
 import { loginPage } from "./views/login.js";
 import { chat } from "./chat.js";
+import { startScheduler } from "../services/scheduler.js";
+import { runPipeline } from "../pipeline/index.js";
 
 const config = loadConfig();
 
@@ -87,6 +89,14 @@ app.use("/admin/*", async (c, next) => {
 });
 
 app.route("/", chat);
+
+// --- Cron schedulers ---
+startScheduler(config, config.scheduler.cronSchedule, "Article", async () => {
+  await runPipeline(config);
+});
+startScheduler(config, config.scheduler.cartoonCronSchedule, "Cartoon", async () => {
+  await runPipeline(config, { cartoon: true });
+});
 
 // --- Start ---
 const port = config.admin.port ?? 3000;
