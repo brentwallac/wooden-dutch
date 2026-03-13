@@ -20,7 +20,7 @@ const configSchema = z.object({
     modelId: z.string().default("gemini-3-pro-image-preview"),
   }),
   scheduler: z.object({
-    cronSchedule: z.string().default("0 8 * * 1,3,5"),
+    cronSchedule: z.string().default("0 8 * * 1-5"),
     cartoonCronSchedule: z.string().default("0 12 * * *"),
     timezone: z.string().default("Australia/Sydney"),
   }),
