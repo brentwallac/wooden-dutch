@@ -15,7 +15,7 @@ import { streamChat } from "./claude.js";
 import { assembleSystemContext } from "./context.js";
 import { chatPage, chatPagePartial } from "./views/chat.js";
 import { messageBubble, streamingBubble, actionButtons } from "./views/components.js";
-import { handleRunPipeline, handleRunPipelineStreaming } from "./actions.js";
+import { handleRunPipeline, handleRunPipelineStreaming, handleGenerateImageStreaming } from "./actions.js";
 
 const chat = new Hono();
 const config = loadConfig();
@@ -190,6 +190,17 @@ chat.post("/admin/chat/:id/action", async (c) => {
         chunks.push(html);
       }
       return c.html(chunks.join(""));
+    }
+    case "generate-image": {
+      const allMessages = messages.map((m) => ({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      }));
+      const imgChunks: string[] = [];
+      for await (const html of handleGenerateImageStreaming(config, allMessages)) {
+        imgChunks.push(html);
+      }
+      return c.html(imgChunks.join(""));
     }
     default:
       return c.html(`<div class="action-result">Action "${action}" — coming in next iteration.</div>`);

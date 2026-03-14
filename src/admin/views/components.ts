@@ -30,6 +30,13 @@ export function actionButtons(conversationId: string): string {
               hx-target="#action-status"
               hx-swap="innerHTML"
               class="btn btn-primary">Publish</button>
+      <button hx-post="/admin/chat/${conversationId}/action"
+              hx-vals='{"action":"generate-image"}'
+              hx-target="#action-status"
+              hx-swap="innerHTML"
+              hx-indicator="#img-loading"
+              class="btn btn-secondary">Generate Image</button>
+      <span id="img-loading" class="htmx-indicator">Generating...</span>
       <div id="action-status"></div>
     </div>`;
 }

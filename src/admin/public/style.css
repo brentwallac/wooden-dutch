@@ -359,3 +359,15 @@ body {
 
 .msg-assistant .msg-content strong { font-weight: 700; }
 .msg-assistant .msg-content em { font-style: italic; }
+
+/* --- HTMX loading indicator --- */
+.htmx-indicator {
+  display: none;
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+}
+
+.htmx-indicator.htmx-request {
+  display: inline;
+}
