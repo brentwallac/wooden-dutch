@@ -1,11 +1,21 @@
+import { createHmac } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { Config } from "../config.js";
 import { getAllAuthors } from "./db.js";
-import GhostAdminAPI from "@tryghost/admin-api";
 
 const TOPICS_FILE = join(process.cwd(), "data", "topics-used.json");
 const SYSTEM_PROMPT_FILE = join(process.cwd(), "data", "prompts", "system.txt");
+
+function makeGhostToken(adminApiKey: string): string {
+  const [id, secret] = adminApiKey.split(":");
+  if (!secret) throw new Error("Invalid admin API key format");
+  const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT", kid: id })).toString("base64url");
+  const now = Math.floor(Date.now() / 1000);
+  const payload = Buffer.from(JSON.stringify({ iat: now, exp: now + 300, aud: "/admin/" })).toString("base64url");
+  const sig = createHmac("sha256", Buffer.from(secret, "hex")).update(`${header}.${payload}`).digest("base64url");
+  return `${header}.${payload}.${sig}`;
+}
 
 async function loadUsedTopics(): Promise<string[]> {
   try {
@@ -26,14 +36,19 @@ async function loadBaseSystemPrompt(): Promise<string> {
 
 async function getRecentGhostPosts(config: Config): Promise<Array<{ title: string; publishedAt: string }>> {
   try {
-    const ghost = new GhostAdminAPI({
-      url: config.ghost.url,
-      key: config.ghost.adminApiKey,
-      version: "v5.0",
-    });
-    // @ts-ignore — @tryghost/admin-api types only declare `add`, but `browse` exists at runtime
-    const posts = await ghost.posts.browse({ limit: 10, order: "published_at DESC", fields: "title,published_at" });
-    return posts.map((p: { title: string; published_at: string }) => ({
+    const token = makeGhostToken(config.ghost.adminApiKey);
+    const res = await fetch(
+      `${config.ghost.url}/ghost/api/admin/posts/?limit=10&order=published_at%20DESC&fields=title,published_at`,
+      {
+        headers: {
+          Authorization: `Ghost ${token}`,
+          "Accept-Version": "v5.0",
+        },
+      },
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.posts ?? []).map((p: { title: string; published_at: string }) => ({
       title: p.title,
       publishedAt: p.published_at,
     }));

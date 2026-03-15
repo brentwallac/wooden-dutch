@@ -1,18 +1,10 @@
 import { createHmac } from "node:crypto";
-import GhostAdminAPI from "@tryghost/admin-api";
 import type { Config } from "../config.js";
 import type { GeneratedArticle } from "../types.js";
 
-function getApi(config: Config): InstanceType<typeof GhostAdminAPI> {
-  return new GhostAdminAPI({
-    url: config.ghost.url,
-    key: config.ghost.adminApiKey,
-    version: "v5.0",
-  });
-}
-
 function makeGhostToken(adminApiKey: string): string {
   const [id, secret] = adminApiKey.split(":");
+  if (!secret) throw new Error("Invalid admin API key format — expected 'id:secret'");
   const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT", kid: id })).toString("base64url");
   const now = Math.floor(Date.now() / 1000);
   const payload = Buffer.from(JSON.stringify({ iat: now, exp: now + 300, aud: "/admin/" })).toString("base64url");
@@ -21,15 +13,20 @@ function makeGhostToken(adminApiKey: string): string {
 }
 
 export async function testConnection(config: Config): Promise<void> {
-  const ghost = getApi(config);
-  try {
-    await ghost.site.read();
-    console.log("Ghost connection OK");
-  } catch (error) {
-    throw new Error(
-      `Ghost connection failed: ${error instanceof Error ? error.message : String(error)}`,
-    );
+  const token = makeGhostToken(config.ghost.adminApiKey);
+  const res = await fetch(`${config.ghost.url}/ghost/api/admin/site/`, {
+    headers: {
+      Authorization: `Ghost ${token}`,
+      "Accept-Version": "v5.0",
+    },
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Ghost connection failed (${res.status}): ${body}`);
   }
+
+  console.log("Ghost connection OK");
 }
 
 export async function uploadImage(
@@ -39,7 +36,7 @@ export async function uploadImage(
 ): Promise<{ url: string }> {
   const token = makeGhostToken(config.ghost.adminApiKey);
   const formData = new FormData();
-  const blob = new Blob([imageBuffer], { type: "image/jpeg" });
+  const blob = new Blob([new Uint8Array(imageBuffer)], { type: "image/jpeg" });
   formData.append("file", blob, `${Date.now()}-${filename}`);
 
   const res = await fetch(`${config.ghost.url}/ghost/api/admin/images/upload/`, {
@@ -65,26 +62,45 @@ export async function publishArticle(
   config: Config,
   article: GeneratedArticle,
 ): Promise<{ url: string }> {
-  const ghost = getApi(config);
+  const token = makeGhostToken(config.ghost.adminApiKey);
 
-  const post = await ghost.posts.add(
+  const postData = {
+    title: article.title,
+    html: article.html,
+    meta_title: article.metaTitle,
+    meta_description: article.metaDescription,
+    tags: article.tags.map((name: string) => ({ name })),
+    status: config.ghost.autoPublish ? "published" : "draft",
+    ...(article.authorSlug && {
+      authors: [{ slug: article.authorSlug }],
+    }),
+    ...(article.featureImageUrl && {
+      feature_image: article.featureImageUrl,
+      feature_image_alt: article.title,
+    }),
+  };
+
+  const res = await fetch(
+    `${config.ghost.url}/ghost/api/admin/posts/?source=html`,
     {
-      title: article.title,
-      html: article.html,
-      meta_title: article.metaTitle,
-      meta_description: article.metaDescription,
-      tags: article.tags.map((name) => ({ name })),
-      status: config.ghost.autoPublish ? "published" : "draft",
-      ...(article.authorSlug && {
-        authors: [{ slug: article.authorSlug }],
-      }),
-      ...(article.featureImageUrl && {
-        feature_image: article.featureImageUrl,
-        feature_image_alt: article.title,
-      }),
+      method: "POST",
+      headers: {
+        Authorization: `Ghost ${token}`,
+        "Content-Type": "application/json",
+        "Accept-Version": "v5.0",
+      },
+      body: JSON.stringify({ posts: [postData] }),
     },
-    { source: "html" },
   );
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Ghost publish failed (${res.status}): ${body}`);
+  }
+
+  const data = await res.json();
+  const post = data.posts?.[0];
+  if (!post) throw new Error("Ghost publish returned no post data");
 
   return { url: post.url || `${config.ghost.url}/p/${post.uuid}` };
 }
