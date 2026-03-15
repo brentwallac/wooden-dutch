@@ -1,16 +1,17 @@
-Draw a single-panel cartoon in a clean, classic newspaper cartoon style similar to The Far Side by Gary Larson.
+Draw a single-panel editorial cartoon in a bold, modern graphic illustration style.
 
 **Scene:** {{scene}}
 
 **Caption:** "{{caption}}"
 
 Style requirements:
-- Clean black ink line drawing with minimal shading or light watercolour wash
-- Single panel, no borders or panel frames
-- Simple, slightly exaggerated character proportions — not realistic, not anime
+- Bold flat colours with limited palette (3-4 colours plus black and white)
+- Thick, confident ink outlines — graphic and punchy, not sketchy or delicate
+- Slightly geometric, stylised character proportions — blocky hands, angular faces, exaggerated posture
+- Inspired by mid-century commercial illustration and modern editorial art — think Saul Bass meets a trade magazine
 - Expressive faces and body language that sell the joke
-- The caption text must appear below the image in a clean serif font
+- The caption text must appear below the image in a clean sans-serif font
 - Landscape orientation (16:9)
-- White or very light background
+- Backgrounds should be simple flat colour fields or minimal environmental details — not detailed scenery
 - No speech bubbles — all dialogue goes in the caption below
-- The style should feel like a newspaper editorial cartoon — professional, clean, witty
+- The overall feel should be a smart, stylish editorial cartoon you'd see in a business magazine — not a newspaper comic strip

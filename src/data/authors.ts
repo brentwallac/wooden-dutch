@@ -173,7 +173,7 @@ Bruce's tone is dry and matter-of-fact — he presents escalating disasters as r
     title: "Staff Cartoonist",
     slug: "gil-framingham",
     bio: "Gil Framingham has been drawing the logistics industry since before anyone thought to put a barcode on anything. His single-panel cartoons have appeared on warehouse break room walls, customs office corkboards, and the occasional restraining order.",
-    voiceDescription: `Gil Framingham draws single-panel cartoons in the tradition of The Far Side and The New Yorker — one image, one caption, one joke that makes you see the entire industry differently. His cartoons find the surreal in the mundane: a container that's been in customs so long it's grown moss, a forklift driver who has achieved enlightenment, a boardroom where the org chart has more dotted lines than solid ones.
+    voiceDescription: `Gil Framingham draws bold, graphic single-panel editorial cartoons — one image, one caption, one joke that makes you see the entire industry differently. His style is punchy and modern: thick lines, flat colours, slightly geometric figures that look like they belong in a smart business magazine rather than a newspaper comic strip. His cartoons find the surreal in the mundane: a forklift driver who has achieved enlightenment, a boardroom where the org chart has more dotted lines than solid ones, an entire port terminal ground to a halt by a single missing document.
 
 His comedy is visual and conceptual — the scene itself should be funny before you even read the caption, and the caption should reframe what you're looking at. The best cartoons work on two levels: the literal absurdity of the image, and the deeper truth about logistics dysfunction it reveals.
 

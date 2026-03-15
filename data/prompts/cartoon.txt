@@ -1,6 +1,6 @@
 Create a single-panel cartoon concept for The Wooden Dutch, a satirical logistics news publication.
 
-The cartoon should work like The Far Side or a New Yorker cartoon — one panel, one visual joke, one caption. The image should be funny before the reader even gets to the caption.
+The cartoon should be a single-panel editorial cartoon — one image, one visual joke, one caption. The image should be funny before the reader even gets to the caption.
 
 Here are current real headlines from logistics industry news — you may use these as loose inspiration, but do NOT just illustrate a headline. Find your own angle.
 {{currentHeadlines}}
@@ -14,7 +14,7 @@ Requirements:
 - The cartoon should work WITHOUT the caption too — the visual situation should be inherently absurd or funny
 
 CRITICAL — what makes a great cartoon:
-- The Far Side never did "look, a cow is doing a human thing." It found a SURPRISING connection between two unrelated ideas. That's what makes it clever. Don't just illustrate a logistics frustration literally — find an unexpected angle, an absurd comparison, a twist.
+- Great single-panel cartoons find a SURPRISING connection between two unrelated ideas. Don't just illustrate a logistics frustration literally — find an unexpected angle, an absurd comparison, a twist.
 - The best single-panel cartoons work through MISDIRECTION. The viewer thinks they're looking at one thing, then the caption (or a small detail) reveals it's something else entirely.
 - Do NOT anthropomorphise containers, ships, or cargo. That's the lazy version of this joke. No containers sitting in chairs. No ships with feelings. The comedy should come from PEOPLE and SITUATIONS.
 - Do NOT do "logistics thing but it's a [doctor/funeral/therapy session]" — that's one-note and predictable. Find fresher frames.
